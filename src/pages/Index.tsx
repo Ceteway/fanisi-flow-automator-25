@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import ROF5Form from "@/components/ROF5Form";
-import DocumentTemplates from "@/components/DocumentTemplates";
+import DocumentTemplates from "@/components/DocumentTemplates"; // This now uses the new implementation
 import Reports from "@/components/Reports";
 import ReminderManager from "@/components/ReminderManager";
 import DashboardLayout from "@/components/DashboardLayout";
@@ -26,7 +26,7 @@ const Index = () => {
       case "rof5":
         return hasPermission('create-instruction') ? (
           <ROF5Form />
-        ) : (
+        ) : (  
           <Card className="bg-slate-800 border-slate-700">
             <CardContent className="p-6 text-center">
               <p className="text-slate-400">You don't have permission to create new instructions.</p>

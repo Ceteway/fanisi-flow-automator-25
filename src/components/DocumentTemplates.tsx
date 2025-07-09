@@ -1,220 +1,261 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { Card, CardContent } from './ui/card';
 import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Badge } from './ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
-import { Search, Plus, Edit, Trash2, FileText, Download } from 'lucide-react';
-import TemplateCreator from './TemplateCreator';
-import TemplateUploader from './TemplateUploader';
-import TemplateVariableEditor from './TemplateVariableEditor';
-import FanisiTemplates from './FanisiTemplates';
-
-interface Template {
-  id: string;
-  name: string;
-  content: string;
-  variables: string[];
-  category?: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import { extractBlankSpacesFromContent } from '../utils/documentParser';
+import { Document, BlankSpace } from '../types/document';
+import TabSystem from './TabSystem';
+import FileUpload from './FileUpload';
+import DocumentList from './DocumentList';
+import DocumentEditor from './DocumentEditor';
+import { FileText, Upload } from 'lucide-react';
 
 const DocumentTemplates: React.FC = () => {
-  const [templates, setTemplates] = useState<Template[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
-  const [showTemplateCreator, setShowTemplateCreator] = useState(false);
-  const [showTemplateUploader, setShowTemplateUploader] = useState(false);
-  const [activeTab, setActiveTab] = useState('user');
+  const [activeTab, setActiveTab] = useState<'upload' | 'system' | 'templates'>('upload');
+  const [systemDocuments, setSystemDocuments] = useState<Document[]>([]);
+  const [userTemplates, setUserTemplates] = useState<Document[]>([]);
+  const [currentDocument, setCurrentDocument] = useState<Document | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
 
+  // Load documents from localStorage on component mount
   useEffect(() => {
-    // Load templates from localStorage or API
-    const savedTemplates = localStorage.getItem('documentTemplates');
-    if (savedTemplates) {
-      setTemplates(JSON.parse(savedTemplates));
+    const savedSystemDocuments = localStorage.getItem('systemDocuments');
+    const savedUserTemplates = localStorage.getItem('userTemplates');
+    
+    if (savedSystemDocuments) {
+      try {
+        const parsed = JSON.parse(savedSystemDocuments);
+        // Convert string dates back to Date objects
+        const documents = parsed.map((doc: any) => ({
+          ...doc,
+          createdAt: new Date(doc.createdAt),
+          modifiedAt: new Date(doc.modifiedAt)
+        }));
+        setSystemDocuments(documents);
+      } catch (error) {
+        console.error('Error parsing system documents:', error);
+      }
+    }
+    
+    if (savedUserTemplates) {
+      try {
+        const parsed = JSON.parse(savedUserTemplates);
+        // Convert string dates back to Date objects
+        const templates = parsed.map((template: any) => ({
+          ...template,
+          createdAt: new Date(template.createdAt),
+          modifiedAt: new Date(template.modifiedAt)
+        }));
+        setUserTemplates(templates);
+      } catch (error) {
+        console.error('Error parsing user templates:', error);
+      }
     }
   }, []);
 
-  const filteredTemplates = templates.filter(template =>
-    template.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    template.category?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Save documents to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('systemDocuments', JSON.stringify(systemDocuments));
+  }, [systemDocuments]);
 
-  const handleEditTemplate = (template: Template) => {
-    setSelectedTemplate(template);
+  useEffect(() => {
+    localStorage.setItem('userTemplates', JSON.stringify(userTemplates));
+  }, [userTemplates]);
+
+  const handleFileProcessed = (content: string, fileName: string) => {
+    // Extract blank spaces from the content
+    const blankSpaces = extractBlankSpacesFromContent(content);
+    
+    // Create a new document
+    const newDocument: Document = {
+      id: `doc_${Date.now()}`,
+      name: fileName,
+      content,
+      originalContent: content,
+      createdAt: new Date(),
+      modifiedAt: new Date(),
+      type: 'system',
+      blankSpaces
+    };
+    
+    // Add to system documents
+    setSystemDocuments([newDocument, ...systemDocuments]);
+    
+    // Set as current document and switch to editing mode
+    setCurrentDocument(newDocument);
+    setIsEditing(true);
+    
+    // Switch to system tab
+    setActiveTab('system');
   };
 
-  const handleDeleteTemplate = (templateId: string) => {
-    const updatedTemplates = templates.filter(t => t.id !== templateId);
-    setTemplates(updatedTemplates);
-    localStorage.setItem('documentTemplates', JSON.stringify(updatedTemplates));
+  const handleSelectDocument = (document: Document) => {
+    setCurrentDocument(document);
+    setIsEditing(true);
   };
 
-  const handleCloseVariableEditor = () => {
-    setSelectedTemplate(null);
-  };
-
-  const handleCloseTemplateCreator = () => {
-    setShowTemplateCreator(false);
-  };
-
-  const handleCloseTemplateUploader = () => {
-    setShowTemplateUploader(false);
-  };
-
-  const handleTemplateCreated = (newTemplate: Template) => {
-    const updatedTemplates = [...templates, newTemplate];
-    setTemplates(updatedTemplates);
-    localStorage.setItem('documentTemplates', JSON.stringify(updatedTemplates));
-    setShowTemplateCreator(false);
-  };
-
-  const handleTemplateUploaded = (destination: 'user' | 'fanisi') => {
-    if (destination === 'user') {
-      // Reload user templates from localStorage
-      const savedTemplates = localStorage.getItem('documentTemplates');
-      if (savedTemplates) {
-        setTemplates(JSON.parse(savedTemplates));
+  const handleDeleteDocument = (documentId: string) => {
+    if (window.confirm('Are you sure you want to delete this document?')) {
+      if (activeTab === 'system') {
+        setSystemDocuments(systemDocuments.filter(doc => doc.id !== documentId));
+        if (currentDocument?.id === documentId) {
+          setCurrentDocument(null);
+          setIsEditing(false);
+        }
+      } else {
+        setUserTemplates(userTemplates.filter(template => template.id !== documentId));
+        if (currentDocument?.id === documentId) {
+          setCurrentDocument(null);
+          setIsEditing(false);
+        }
       }
     }
-    // For fanisi templates, the FanisiTemplates component will handle reloading
-    setActiveTab(destination);
+  };
+
+  const handleSaveDocument = (updatedDocument: Document) => {
+    if (updatedDocument.type === 'system') {
+      setSystemDocuments(systemDocuments.map(doc => 
+        doc.id === updatedDocument.id ? updatedDocument : doc
+      ));
+    } else {
+      setUserTemplates(userTemplates.map(template => 
+        template.id === updatedDocument.id ? updatedDocument : template
+      ));
+    }
+    
+    setCurrentDocument(updatedDocument);
+    
+    // Show success message
+    alert('Document saved successfully!');
+  };
+
+  const handleCreateTemplate = () => {
+    if (!currentDocument) return;
+    
+    // Create a new template from the current document
+    const newTemplate: Document = {
+      ...currentDocument,
+      id: `template_${Date.now()}`,
+      name: `${currentDocument.name} (Template)`,
+      type: 'template',
+      createdAt: new Date(),
+      modifiedAt: new Date()
+    };
+    
+    // Add to user templates
+    setUserTemplates([newTemplate, ...userTemplates]);
+    
+    // Switch to templates tab
+    setActiveTab('templates');
+    
+    // Show success message
+    alert('Template created successfully!');
+  };
+
+  const handleBackToList = () => {
+    setIsEditing(false);
+    setCurrentDocument(null);
+  };
+
+  const renderTabContent = () => {
+    if (isEditing && currentDocument) {
+      return (
+        <div className="space-y-4">
+          <div className="flex justify-between">
+            <Button variant="outline" onClick={handleBackToList}>
+              Back to List
+            </Button>
+            {currentDocument.type === 'system' && (
+              <Button onClick={handleCreateTemplate}>
+                Save as Template
+              </Button>
+            )}
+          </div>
+          <DocumentEditor 
+            document={currentDocument} 
+            onSave={handleSaveDocument} 
+          />
+        </div>
+      );
+    }
+    
+    switch (activeTab) {
+      case 'upload':
+        return <FileUpload onFileProcessed={handleFileProcessed} />;
+      case 'system':
+        return (
+          <DocumentList 
+            documents={systemDocuments} 
+            onSelectDocument={handleSelectDocument} 
+            onDeleteDocument={handleDeleteDocument}
+            type="system"
+          />
+        );
+      case 'templates':
+        return (
+          <DocumentList 
+            documents={userTemplates} 
+            onSelectDocument={handleSelectDocument} 
+            onDeleteDocument={handleDeleteDocument}
+            type="template"
+          />
+        );
+      default:
+        return null;
+    }
   };
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <div className="flex-1">
+        <div>
           <h2 className="text-2xl font-bold text-gray-900">Document Templates</h2>
-          <p className="text-gray-600">Manage and organize your document templates</p>
+          <p className="text-gray-600">Create, edit, and manage document templates with blank spaces</p>
         </div>
-        <Button onClick={() => setShowTemplateCreator(true)} className="flex items-center gap-2">
-          <Plus className="w-4 h-4" />
-          Create Template
-        </Button>
-        <Button 
-          onClick={() => setShowTemplateUploader(true)} 
-          className="ml-2 bg-green-600 hover:bg-green-700"
-        >
-          <Upload className="w-4 h-4 mr-2" /> Upload
-        </Button>
+        {!isEditing && (
+          <div className="flex space-x-2">
+            <Button 
+              onClick={() => setActiveTab('upload')}
+              variant={activeTab === 'upload' ? 'default' : 'outline'}
+              className="flex items-center"
+            >
+              <Upload className="w-4 h-4 mr-2" />
+              Upload Document
+            </Button>
+            <Button 
+              onClick={() => {
+                // Create a new blank template
+                const newTemplate: Document = {
+                  id: `template_${Date.now()}`,
+                  name: 'New Template',
+                  content: '<p>Start typing your template here...</p>',
+                  createdAt: new Date(),
+                  modifiedAt: new Date(),
+                  type: 'template',
+                  blankSpaces: []
+                };
+                
+                setUserTemplates([newTemplate, ...userTemplates]);
+                setCurrentDocument(newTemplate);
+                setIsEditing(true);
+                setActiveTab('templates');
+              }}
+              variant="outline"
+              className="flex items-center"
+            >
+              <FileText className="w-4 h-4 mr-2" />
+              New Template
+            </Button>
+          </div>
+        )}
       </div>
 
-      <Tabs defaultValue="user" value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="mb-4">
-          <TabsTrigger value="user">User Templates</TabsTrigger>
-          <TabsTrigger value="fanisi">Fanisi Templates</TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="user" className="space-y-4">
-          <div className="flex items-center gap-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <Input
-                placeholder="Search templates..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredTemplates.map((template) => (
-              <Card key={template.id} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-2">
-                      <FileText className="w-5 h-5 text-blue-600" />
-                      <CardTitle className="text-lg">{template.name}</CardTitle>
-                    </div>
-                    <div className="flex gap-1">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleEditTemplate(template)}
-                      >
-                        <Edit className="w-4 h-4" />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleDeleteTemplate(template.id)}
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </div>
-                  {template.category && (
-                    <Badge variant="secondary" className="w-fit">
-                      {template.category}
-                    </Badge>
-                  )}
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="mb-4">
-                    {template.content.substring(0, 100)}...
-                  </CardDescription>
-                  <div className="flex items-center justify-between text-sm text-gray-500">
-                    <span>{template.variables.length} variables</span>
-                    <span>Updated {new Date(template.updatedAt).toLocaleDateString()}</span>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {filteredTemplates.length === 0 && (
-            <div className="text-center py-12">
-              <FileText className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No templates found</h3>
-              <p className="text-gray-600 mb-4">
-                {searchTerm ? 'Try adjusting your search terms' : 'Create your first template to get started'}
-              </p>
-              {!searchTerm && (
-                <Button onClick={() => setShowTemplateCreator(true)}>
-                  <Plus className="w-4 h-4 mr-2" />
-                  Create Template
-                </Button>
-              )}
-            </div>
-          )}
-        </TabsContent>
-        
-        <TabsContent value="fanisi">
-          <FanisiTemplates />
-        </TabsContent>
-      </Tabs>
-
-      {/* Template Variable Editor Modal */}
-      {selectedTemplate && (
-        <TemplateVariableEditor
-          template={{
-            id: selectedTemplate.id,
-            name: selectedTemplate.name,
-            content: selectedTemplate.content,
-            variables: selectedTemplate.variables
-          }}
-          onClose={handleCloseVariableEditor}
-        />
-      )}
-
-      {/* Template Creator Modal */}
-      {showTemplateCreator && (
-        <TemplateCreator
-          onClose={handleCloseTemplateCreator}
-          onTemplateCreated={handleTemplateCreated}
-        />
-      )}
-
-      {/* Template Uploader Modal */}
-      {showTemplateUploader && (
-        <TemplateUploader
-          onClose={handleCloseTemplateUploader}
-          onTemplateUploaded={handleTemplateUploaded}
-        />
-      )}
+      <Card>
+        <CardContent className="p-6">
+          <TabSystem activeTab={activeTab} onTabChange={setActiveTab}>
+            {renderTabContent()}
+          </TabSystem>
+        </CardContent>
+      </Card>
     </div>
   );
 };
