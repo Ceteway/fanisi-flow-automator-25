@@ -4,6 +4,8 @@ import { BlankSpace } from '../types/document';
 export const parseWordDocument = async (file: File): Promise<string> => {
   try {
     const arrayBuffer = await file.arrayBuffer();
+    
+    // Use mammoth to convert Word document to HTML
     const result = await mammoth.convertToHtml({ arrayBuffer });
     
     // Clean up the HTML
@@ -15,7 +17,7 @@ export const parseWordDocument = async (file: File): Promise<string> => {
     return html;
   } catch (error) {
     console.error('Error parsing Word document:', error);
-    throw new Error('Failed to parse Word document');
+    throw new Error('Failed to parse Word document. Please check if the file is a valid Word document.');
   }
 };
 

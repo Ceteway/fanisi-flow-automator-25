@@ -5,15 +5,37 @@ import { Document } from '../types/document';
 export const exportToWord = async (document: Document): Promise<void> => {
   try {
     // Convert HTML content to plain text for DOCX
-    const plainText = document.content
-      .replace(/<span class="blank-space[^>]*>(.*?)<\/span>/g, (match, content) => {
-        // Replace blank spaces with their content or underscores
-        return content.startsWith('.') ? '_'.repeat(content.length) : content;
-      })
-      .replace(/<[^>]*>/g, ''); // Remove all HTML tags
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = document.content;
     
-    // Split text into paragraphs
-    const paragraphs = plainText.split('\n').map(text => {
+    // Extract text content, preserving paragraph structure
+    const paragraphTexts: string[] = [];
+    const paragraphElements = tempDiv.querySelectorAll('p');
+    
+    if (paragraphElements.length > 0) {
+      paragraphElements.forEach(p => {
+        // Replace blank spaces with their content or underscores
+        const paragraphText = p.innerHTML
+          .replace(/<span class="blank-space[^>]*>(.*?)<\/span>/g, (match, content) => {
+            return content.startsWith('.') ? '_'.repeat(content.length) : content;
+          })
+          .replace(/<[^>]*>/g, ''); // Remove all HTML tags
+        
+        paragraphTexts.push(paragraphText);
+      });
+    } else {
+      // If no paragraphs, use the whole content
+      const plainText = document.content
+        .replace(/<span class="blank-space[^>]*>(.*?)<\/span>/g, (match, content) => {
+          return content.startsWith('.') ? '_'.repeat(content.length) : content;
+        })
+        .replace(/<[^>]*>/g, ''); // Remove all HTML tags
+      
+      paragraphTexts.push(plainText);
+    }
+    
+    // Create DOCX paragraphs
+    const paragraphs = paragraphTexts.map(text => {
       return new Paragraph({
         children: [new TextRun({ text })],
         alignment: AlignmentType.LEFT
@@ -29,8 +51,8 @@ export const exportToWord = async (document: Document): Promise<void> => {
     });
     
     // Generate and save the file
-    const buffer = await Packer.toBlob(doc);
-    saveAs(buffer, `${document.name}.docx`);
+    const blob = await Packer.toBlob(doc);
+    saveAs(blob, `${document.name}.docx`);
   } catch (error) {
     console.error('Error exporting to Word:', error);
     throw new Error('Failed to export document to Word format');
@@ -50,13 +72,12 @@ export const exportToHTML = (document: Document): void => {
 
 export const exportToText = (document: Document): void => {
   try {
+    // Create a temporary div to parse HTML
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = document.content;
+    
     // Convert HTML to plain text
-    const plainText = document.content
-      .replace(/<span class="blank-space[^>]*>(.*?)<\/span>/g, (match, content) => {
-        // Replace blank spaces with their content or underscores
-        return content.startsWith('.') ? '_'.repeat(content.length) : content;
-      })
-      .replace(/<[^>]*>/g, ''); // Remove all HTML tags
+    const plainText = tempDiv.textContent || tempDiv.innerText || '';
     
     // Create a blob with the plain text content
     const blob = new Blob([plainText], { type: 'text/plain' });
