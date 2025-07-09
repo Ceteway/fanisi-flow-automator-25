@@ -4,7 +4,9 @@ import { Document } from '../types/document';
 
 export const exportToWord = async (document: Document): Promise<void> => {
   try {
-    // Convert HTML content to plain text for DOCX
+    console.log('Starting Word document export...');
+    
+    // Create a temporary div to parse HTML content
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = document.content;
     
@@ -34,6 +36,8 @@ export const exportToWord = async (document: Document): Promise<void> => {
       paragraphTexts.push(plainText);
     }
     
+    console.log(`Extracted ${paragraphTexts.length} paragraphs from document`);
+    
     // Create DOCX paragraphs
     const paragraphs = paragraphTexts.map(text => {
       return new Paragraph({
@@ -50,12 +54,16 @@ export const exportToWord = async (document: Document): Promise<void> => {
       }]
     });
     
+    console.log('DOCX document created, generating blob...');
+    
     // Generate and save the file
     const blob = await Packer.toBlob(doc);
     saveAs(blob, `${document.name}.docx`);
+    
+    console.log('Document exported successfully');
   } catch (error) {
     console.error('Error exporting to Word:', error);
-    throw new Error('Failed to export document to Word format');
+    throw new Error(`Failed to export document to Word format: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 };
 

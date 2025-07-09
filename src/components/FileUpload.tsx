@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Label } from './ui/label';
 import { parseWordDocument, validateDocumentFile } from '../utils/documentParser';
-import { Upload, FileText, CheckCircle, AlertCircle } from 'lucide-react';
+import { Upload, FileText, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 
 interface FileUploadProps {
   onFileProcessed: (content: string, fileName: string) => void;
@@ -68,19 +68,25 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileProcessed }) => {
     setError(null);
     
     try {
+      console.log(`Processing file: ${file.name} (${file.type})`);
       let content: string;
       
       if (file.type.includes('word') || file.name.endsWith('.docx') || file.name.endsWith('.doc')) {
+        console.log('Processing as Word document');
         content = await parseWordDocument(file);
       } else if (file.type === 'text/plain' || file.name.endsWith('.txt')) {
+        console.log('Processing as plain text');
         content = await file.text();
         // Wrap plain text in paragraph tags for consistent formatting
         content = `<p>${content.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</p>`;
       } else if (file.type === 'text/html' || file.name.endsWith('.html')) {
+        console.log('Processing as HTML');
         content = await file.text();
       } else {
         throw new Error('Unsupported file type');
       }
+      
+      console.log('File processed successfully');
       
       // Pass the processed content to the parent component
       onFileProcessed(content, file.name.replace(/\.[^/.]+$/, ""));
@@ -137,7 +143,14 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileProcessed }) => {
                   onClick={handleProcess}
                   disabled={isProcessing}
                 >
-                  {isProcessing ? 'Processing...' : 'Process Document'}
+                  {isProcessing ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    'Process Document'
+                  )}
                 </Button>
               </div>
             </div>

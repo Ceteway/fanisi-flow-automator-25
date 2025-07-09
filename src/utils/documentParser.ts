@@ -3,10 +3,19 @@ import { BlankSpace } from '../types/document';
 
 export const parseWordDocument = async (file: File): Promise<string> => {
   try {
+    console.log('Starting Word document parsing...');
     const arrayBuffer = await file.arrayBuffer();
     
     // Use mammoth to convert Word document to HTML
+    console.log('Converting Word document to HTML with mammoth...');
     const result = await mammoth.convertToHtml({ arrayBuffer });
+    
+    if (!result || !result.value) {
+      console.error('Mammoth returned empty result');
+      throw new Error('Failed to extract content from Word document');
+    }
+    
+    console.log('Word document converted successfully');
     
     // Clean up the HTML
     let html = result.value;
@@ -17,7 +26,7 @@ export const parseWordDocument = async (file: File): Promise<string> => {
     return html;
   } catch (error) {
     console.error('Error parsing Word document:', error);
-    throw new Error('Failed to parse Word document. Please check if the file is a valid Word document.');
+    throw new Error(`Failed to parse Word document: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 };
 
