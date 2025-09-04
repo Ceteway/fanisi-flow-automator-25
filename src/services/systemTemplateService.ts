@@ -413,6 +413,34 @@ export class SystemTemplateService {
         throw new Error('No file data available');
       }
 
+      // Handle HTML templates differently
+      if (template.content_type === 'text/html' || template.file_name.endsWith('.html')) {
+        try {
+          // Decode HTML content from Uint8Array
+          const decoder = new TextDecoder('utf-8');
+          const htmlContent = decoder.decode(template.file_data);
+          
+          // Extract text content from HTML, preserving structure
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(htmlContent, 'text/html');
+          
+          // Remove script tags and style tags
+          doc.querySelectorAll('script, style, .instructions, .toolbar, details.form').forEach(el => el.remove());
+          
+          // Get text content with some formatting preserved
+          const textContent = doc.body.textContent || doc.body.innerText || '';
+          
+          return textContent
+            .replace(/\s+/g, ' ')
+            .replace(/\n\s*\n/g, '\n\n')
+            .trim();
+        } catch (htmlError) {
+          console.warn('HTML extraction failed, using raw content:', htmlError);
+          const decoder = new TextDecoder('utf-8');
+          return decoder.decode(template.file_data);
+        }
+      }
+
       try {
         // Create ArrayBuffer from Uint8Array for mammoth
         const arrayBuffer = template.file_data.buffer.slice(

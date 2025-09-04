@@ -14,8 +14,12 @@ import FormActions from "@/components/ROF5/FormActions";
 import AISuggestions from "@/components/AISuggestions";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { FileText, Save, FolderOpen, Download } from "lucide-react";
+import { SystemTemplateService, SystemTemplate } from "@/services/systemTemplateService";
+import TemplateSeederButton from "@/components/TemplateSeederButton";
+import { useEffect } from "react";
 
 const ROF5Form = () => {
   const {
@@ -40,12 +44,37 @@ const ROF5Form = () => {
     includeForwardingLetter: true,
     includeInvoice: true
   });
+  const [availableTemplates, setAvailableTemplates] = useState<SystemTemplate[]>([]);
+  const [loadingTemplates, setLoadingTemplates] = useState(false);
 
   // Draft management state
   const [showDraftDialog, setShowDraftDialog] = useState(false);
   const [showLoadDialog, setShowLoadDialog] = useState(false);
   const [draftName, setDraftName] = useState('');
   const [savedDrafts, setSavedDrafts] = useState<SavedDraft[]>([]);
+
+  // Load available system templates
+  useEffect(() => {
+    loadAvailableTemplates();
+  }, []);
+
+  const loadAvailableTemplates = async () => {
+    try {
+      setLoadingTemplates(true);
+      const templates = await SystemTemplateService.getAllSystemTemplates();
+      setAvailableTemplates(templates);
+      console.log(`Loaded ${templates.length} system templates for ROF5 selection`);
+    } catch (error) {
+      console.error('Failed to load system templates:', error);
+      toast({
+        title: "Template Loading Failed",
+        description: "Could not load available templates for selection",
+        variant: "destructive"
+      });
+    } finally {
+      setLoadingTemplates(false);
+    }
+  };
 
   const handleInputChangeWithAI = (field: keyof typeof formData, value: string) => {
     handleInputChange(field, value);
@@ -150,7 +179,6 @@ const ROF5Form = () => {
       ...prev, 
       agreementType: templateName.toLowerCase()
     }));
-    setShowTemplateSelector(false);
     
     toast({
       title: "Template Selected",
@@ -408,6 +436,52 @@ const ROF5Form = () => {
               <CardContent className="p-6">
                 <h3 className="text-lg font-semibold mb-4 text-blue-800">Document Generation</h3>
                 
+                {/* Template Selection */}
+                {availableTemplates.length === 0 ? (
+                  <div className="mb-6">
+                    <TemplateSeederButton onTemplatesSeeded={loadAvailableTemplates} />
+                  </div>
+                ) : (
+                  <div className="mb-6">
+                    <div className="space-y-3">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Select Agreement Template
+                        </label>
+                        <Select 
+                          value={selectedTemplate || ""} 
+                          onValueChange={handleSelectTemplate}
+                          disabled={loadingTemplates}
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Choose a template for document generation" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {availableTemplates
+                              .filter(t => t.category === 'agreements')
+                              .map(template => (
+                                <SelectItem key={template.id} value={template.name}>
+                                  {template.name}
+                                </SelectItem>
+                              ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      {selectedTemplate && (
+                        <div className="p-3 bg-green-100 rounded border border-green-200">
+                          <p className="text-sm text-green-800">
+                            <strong>Selected:</strong> {selectedTemplate}
+                          </p>
+                          <p className="text-xs text-green-600 mt-1">
+                            This template will be used for agreement document generation
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   <div className="space-y-3">
                     <label className="flex items-center space-x-2">
@@ -453,29 +527,18 @@ const ROF5Form = () => {
                   <div className="space-y-3">
                     <button
                       type="button"
-                      onClick={() => setShowTemplateSelector(true)}
-                      className="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
-                      disabled={true}
-                    >
-                      Select Template
-                    </button>
-                    
-                    {selectedTemplate && (
-                      <div className="p-3 bg-green-100 rounded">
-                        <p className="text-sm text-green-800">
-                          Template: <strong>{selectedTemplate}</strong>
-                        </p>
-                      </div>
-                    )}
-                    
-                    <button
-                      type="button"
                       onClick={handleGenerateDocuments}
-                      disabled={isSubmitting}
+                      disabled={isSubmitting || !selectedTemplate}
                       className="w-full px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
                     >
                       {isSubmitting ? "Generating..." : "Generate Documents"}
                     </button>
+                    
+                    {!selectedTemplate && availableTemplates.length > 0 && (
+                      <p className="text-xs text-gray-600">
+                        Please select a template above to enable document generation
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -517,7 +580,6 @@ const ROF5Form = () => {
         </CardContent>
       </Card>
 
-      {/* Template selection is disabled */}
     </div>
   );
 };

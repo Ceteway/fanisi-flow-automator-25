@@ -167,13 +167,20 @@ export class DocumentGenerationService {
     category: string,
     specificType?: string
   ): SystemTemplate | null {
-    // First try to find by specific type if provided
+    // First try to find by exact name match if provided
     if (specificType) {
-      const specificTemplate = templates.find(t => 
+      const exactMatch = templates.find(t => 
+        t.category === category && 
+        t.name === specificType
+      );
+      if (exactMatch) return exactMatch;
+      
+      // Then try partial name match
+      const partialMatch = templates.find(t => 
         t.category === category && 
         t.name.toLowerCase().includes(specificType.toLowerCase())
       );
-      if (specificTemplate) return specificTemplate;
+      if (partialMatch) return partialMatch;
     }
 
     // Fallback to first template in category
