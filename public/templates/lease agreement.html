@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Lease – Safaricom BTS (Fillable)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root{
+    --font:"Times New Roman", serif;
+    --accent:#0d0d0d;
+  }
+  html,body{margin:0;padding:0;background:#fafafa;color:#111;}
+  body{font-family:var(--font);line-height:1.3;}
+  .container{max-width:900px;margin:24px auto;padding:24px;background:#fff;box-shadow:0 0 0 1px #eee;}
+  .toolbar{position:sticky;top:0;z-index:5;background:#fff;padding:12px;margin:-12px -12px 16px -12px;border-bottom:1px solid #eee;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .toolbar h2{margin:0;font-size:18px;font-weight:600}
+  .toolbar .spacer{flex:1}
+  .toolbar button{background:#0a66c2;color:#fff;border:0;border-radius:6px;padding:8px 12px;cursor:pointer}
+  .toolbar button.secondary{background:#555}
+  .toolbar button:disabled{opacity:.5;cursor:not-allowed}
+  details.form{border:1px solid #e5e5e5;border-radius:8px;margin-bottom:20px}
+  details.form > summary{cursor:pointer;list-style:none;padding:12px 16px;font-weight:700;background:#f6f6f6;border-radius:8px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px;padding:16px}
+  .grid-3{grid-template-columns:repeat(3,1fr)}
+  .grid-1{grid-template-columns:1fr}
+  label{font-size:12px;color:#333;display:block;margin-bottom:4px}
+  input,select,textarea{width:100%;padding:8px;border:1px solid #d9d9d9;border-radius:6px;font-family:inherit;font-size:14px;background:white}
+  textarea{min-height:64px}
+  table{width:100%;border-collapse:collapse;margin:8px 0 16px}
+  th,td{border:1px solid #d9d9d9;padding:8px;vertical-align:top}
+  th{background:#f6f6f6}
+  .add-row{margin:8px 0}
+  .lease{font-size:12.5pt;color:#000;}
+  .center{text-align:center}
+  .underline{display:inline-block;min-width:120px;border-bottom:1px dotted #777;padding:0 3px}
+  .mso-title{font-weight:700;text-decoration:underline}
+  h1,h2,h3{font-weight:700;margin:16px 0 8px}
+  h1{font-size:18pt}
+  h2{font-size:14pt}
+  h3{font-size:12.5pt}
+  p{margin:6px 0}
+  ol{margin:6px 0 6px 18px}
+  .page-break{page-break-before:always;margin-top:24px}
+  .small{font-size:10pt;color:#333}
+  .sign-block{border:1px solid #ddd;padding:12px;margin:12px 0}
+  .photo-box{width:120px;height:140px;border:1px dashed #bbb;display:inline-block;vertical-align:top;text-align:center;font-size:10px;color:#666;line-height:140px;margin:6px 12px 6px 0}
+  .muted{color:#444}
+  .editable[contenteditable="true"]{outline:2px dashed #d9e8ff;background: #fbfdff}
+  .note{background:#fff8e5;border:1px solid #ffe3a3;padding:8px 10px;border-radius:6px;color:#7a5a00;margin:10px 0}
+  @media print{
+    .toolbar, details.form { display:none !important; }
+    .container{box-shadow:none;margin:0;max-width:100%}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="toolbar">
+    <h2>Lease – Fill & Export</h2>
+    <div class="spacer"></div>
+    <button id="btnWord">Download as Word (.doc)</button>
+    <button class="secondary" id="btnPrint">Print / Save as PDF</button>
+  </div>
+
+  <details class="form" open>
+    <summary>Form fields (auto-sync into the lease)</summary>
+    <div class="grid grid-3">
+      <div>
+        <label>Title Number</label>
+        <input data-key="TITLE_NUMBER" placeholder="e.g., L.R. 12345/67" />
+      </div>
+      <div>
+        <label>Date of Lease (Day)</label>
+        <input data-key="LEASE_DAY" placeholder="e.g., 5th" />
+      </div>
+      <div>
+        <label>Date of Lease (Month & Year)</label>
+        <input data-key="LEASE_MONTH_YEAR" placeholder="e.g., August 2025" />
+      </div>
+
+      <div>
+        <label>Landlord type</label>
+        <select data-key="LANDLORD_TYPE">
+          <option value="Individual">Individual</option>
+          <option value="Company">Company</option>
+        </select>
+      </div>
+      <div>
+        <label>Landlord name</label>
+        <input data-key="LANDLORD_NAME" placeholder="Full name or Company name" />
+      </div>
+      <div>
+        <label>Landlord postal address (P.O. Box)</label>
+        <input data-key="LANDLORD_POBOX" placeholder="P.O. Box ..." />
+      </div>
+
+      <div>
+        <label>Landlord ID/Passport (if Individual)</label>
+        <input data-key="LANDLORD_ID" placeholder="ID/Passport No." />
+      </div>
+      <div>
+        <label>Landlord KRA PIN</label>
+        <input data-key="LANDLORD_PIN" placeholder="A0XXXXXXX" />
+      </div>
+      <div>
+        <label>Landlord email</label>
+        <input data-key="LANDLORD_EMAIL" placeholder="email@example.com" />
+      </div>
+
+      <div>
+        <label>LR Number (Demised portion’s parent)</label>
+        <input data-key="LR_NUMBER" placeholder="e.g., L.R. 12345/67" />
+      </div>
+      <div>
+        <label>Site location / description</label>
+        <input data-key="LAND_LOCATION" placeholder="e.g., [Locality, County]" />
+      </div>
+      <div>
+        <label>Area in square metres (number)</label>
+        <input data-key="AREA_NUM" placeholder="e.g., 100" />
+      </div>
+
+      <div>
+        <label>Area in words</label>
+        <input data-key="AREA_WORDS" placeholder="e.g., One Hundred" />
+      </div>
+      <div>
+        <label>Commencement date (long form)</label>
+        <input data-key="COMMENCE_LONG" placeholder="e.g., 1st September Two Thousand and Twenty-Five (2025)" />
+      </div>
+      <div>
+        <label>Term start</label>
+        <input data-key="TERM_START" placeholder="e.g., 1 September 2025" />
+      </div>
+
+      <div>
+        <label>Term end</label>
+        <input data-key="TERM_END" placeholder="e.g., 31 August 2040" />
+      </div>
+      <div>
+        <label>Sectional plan Volume/Folio/File (if applicable)</label>
+        <input data-key="SECTIONAL_PLAN" placeholder="Vol ___ Folio ___ File ___" />
+      </div>
+      <div>
+        <label>Superior lease expiry / extension status (optional)</label>
+        <input data-key="SUPERIOR_NOTES" placeholder="e.g., Govt lease to 2099" />
+      </div>
+
+      <div>
+        <label>Site name</label>
+        <input data-key="SITE_NAME" />
+      </div>
+      <div>
+        <label>Site number</label>
+        <input data-key="SITE_NUMBER" />
+      </div>
+      <div>
+        <label>File ref</label>
+        <input data-key="FILE_REF" />
+      </div>
+    </div>
+
+    <div style="padding:0 16px 16px 16px">
+      <h3>Rent schedule</h3>
+      <p class="small muted">Add or edit years. Amounts can include commas and decimals; WHT/VAT clauses remain as drafted.</p>
+      <table id="rentTable">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Duration (From – To)</th>
+            <th>Amount (in words)</th>
+            <th>Amount (numeric)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Default 3 rows; add/remove as needed -->
+          <tr>
+            <td>Year 1</td>
+            <td><input data-rent="Y1_DUR" placeholder="Commencement Date to …" /></td>
+            <td><input data-rent="Y1_WORDS" placeholder="Kenya Shillings ..." /></td>
+            <td><input data-rent="Y1_NUM" placeholder="e.g., 120,000.00" /></td>
+          </tr>
+          <tr>
+            <td>Year 2</td>
+            <td><input data-rent="Y2_DUR" /></td>
+            <td><input data-rent="Y2_WORDS" /></td>
+            <td><input data-rent="Y2_NUM" /></td>
+          </tr>
+          <tr>
+            <td>Year 3</td>
+            <td><input data-rent="Y3_DUR" /></td>
+            <td><input data-rent="Y3_WORDS" /></td>
+            <td><input data-rent="Y3_NUM" /></td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="button" class="add-row" id="addRentRow">+ Add year</button>
+      <button type="button" class="add-row" id="removeRentRow">– Remove last</button>
+      <div class="note">Note: Renewal escalator is fixed at 5% p.a. per the clause. Adjust only if your negotiated terms differ.</div>
+    </div>
+  </details>
+
+  <div id="leaseRoot" class="lease editable" contenteditable="true">
+    <p class="center"><span class="mso-title">LEASE</span></p>
+    <p class="center small">Form LRA 62 (r. 76(1))</p>
+    <p class="center small">REPUBLIC OF KENYA</p>
+    <p class="center small">THE LAND REGISTRATION ACT</p>
+    <p class="center small">THE LAND REGISTRATION (GENERAL) REGULATIONS, 2017</p>
+
+    <p class="center">LEASE</p>
+    <p><strong>Title Number:</strong> <span data-bind="TITLE_NUMBER" class="underline"></span></p>
+
+    <h2>Parties</h2>
+    <p><strong>Date of Lease:</strong> This <span data-bind="LEASE_DAY" class="underline"></span> day of <span data-bind="LEASE_MONTH_YEAR" class="underline"></span></p>
+    <p><strong>Landlord:</strong> <span data-bind="LANDLORD_NAME" class="underline"></span> of Post Office Box <span data-bind="LANDLORD_POBOX" class="underline"></span> in the Republic of Kenya (“the Landlord” which expression shall where the context so admits include its successors in title and assigns) of the one part.</p>
+    <p><strong>Tenant:</strong> Safaricom PLC (Company Number C.8/2002) a public limited liability company incorporated in the said Republic and of Post Office Box Number 66827-00800, Nairobi or nominee (referred to as the Tenant which expression shall where the context so requires include the Tenant’s successors in title and assigns) of the other part.</p>
+
+    <h2>Demised premises</h2>
+    <p>ALL THAT portion of Land Reference Number <span data-bind="LR_NUMBER" class="underline"></span> (described in this Lease) comprising a total of approximately <span data-bind="AREA_WORDS" class="underline"></span> square Metres (<span data-bind="AREA_NUM" class="underline"></span> m²) which portion is more particularly described and delineated on the plans annexed and bordered in red and shall for the purposes of this Lease include any access ways marked in a dotted red line (the “Premises”).</p>
+
+    <h2>Commencement and term</h2>
+    <p><strong>Commencement Date:</strong> The <span data-bind="COMMENCE_LONG" class="underline"></span> (the “Commencement Date”).</p>
+    <p><strong>Term:</strong> The <span data-bind="TERM_START" class="underline"></span> to the <span data-bind="TERM_END" class="underline"></span> (both dates inclusive).</p>
+
+    <h2>Sectional plan</h2>
+    <p>Sectional Plan(s) of the Demised Premises (where applicable): Registered in the Registry of Documents at Nairobi in <span data-bind="SECTIONAL_PLAN" class="underline"></span> and coloured in red and more particularly defined in the First Schedule.</p>
+
+    <h2>Operative clause</h2>
+    <p>The Landlord as legal and or beneficial owner of the Land HEREBY LEASES to the Tenant the Premises for the Term subject to the payment of the Rent and subject to the conditions set out in this Lease.</p>
+
+    <h2>Terms and definitions</h2>
+    <p>“Base Transceiver Station” shall mean and include, but not be limited to, antennae, mounting poles, support structures, microwave dishes, electronic equipment housed in a shelter, diesel generator and diesel fuel tank housed in a shelter, all connecting cables connecting the antennae to the electronic equipment and the equipment to the electricity, fibre and/or telephone supply as well as any necessary earthing cables, cable conduits, trays, runs, ducts, supports and any other elements necessary at any given time to ensure the operation of the Base Transceiver Station.</p>
+    <p>“Force Majeure Event” means statutory restrictions nonavailability of labour or materials or matters beyond the control of the parties;</p>
+    <p>“Insured Risks” means the risks of loss or damage by fire storm earthquake lightning explosion riot civil commotion malicious damage terrorism impact by vehicles and by aircraft and articles dropped from aircraft flood damage and bursting and overflowing of water pipes and tanks and such other risks whether or not in the nature of the foregoing as the Landlord acting reasonably from time to time decides to insure against and “Insured Risk” shall be interpreted accordingly;</p>
+    <p>“Land” means ALL THAT piece or parcel of land known as Title No./L.R. No <span data-bind="LR_NUMBER" class="underline"></span> situate in <span data-bind="LAND_LOCATION" class="underline"></span> containing by measurement <span data-bind="AREA_WORDS" class="underline"></span> being the property comprised in a Title Deed/Certificate of Title/Certificate of Lease/Grant dated [.] HELD by the Landlord as absolute proprietor or as proprietor for an estate in fee simple or as proprietor as lessee from the Government of Kenya for the term of [.] years from the [.] day of [.] [.] (subject to the Act(s) special conditions and other matters as are notified by the Memorandum endorsed on the said title document and to the revisable annual rent of KShs. [.]);</p>
+    <p>“Personal Data” means the Landlord’s personal information including, but not limited to, copies of national ID, Passport, KRA PIN, photographs, bank account details, telephone number, physical, postal and email address as collected by the Tenant;</p>
+    <p>“Permitted Use” means and includes uses specific to the telecommunications industry, and erection of a Base Transceiver Station, which shall include the installation, upgrading, optimization of existing equipment including new antennae or other equipment swaps, removing, replacing, repairing, maintaining and operating of mobile telecommunications antennae and related equipment and such other related purposes as may be required by the Tenant from time to time including but not limited to installation of an electricity generator and related equipment, an electric line and/or fibre cable either overhead or underground or as may otherwise be required.</p>
+    <p>“Tenant’s Equipment” means the Tenant’s antennae mast apparatus or equipment required for the Permitted Use in the Premises including any related equipment room or cabin or generator house and electricity generator together with any air conditioning handling units and necessary communications or electricity supply fibre cables wires or conduits with necessary fittings in or under the Land as is required for the Permitted Use;</p>
+    <p>“Telecommunications Apparatus” means and includes but not limited to such communications and electricity supply fibre cables wires conduits with necessary fittings and such antennae dish antennae masts aerials equipment cabins electricity generator and generator house and air conditioning handling units and related machinery.</p>
+
+    <h2>Grant of lease</h2>
+    <p>The Landlord has agreed to lease, and the Tenant has agreed to take a lease of the Premises upon the following terms and conditions.</p>
+
+    <h2>Tenant covenants</h2>
+    <h3>2.1 Payment of Rent</h3>
+    <p>To pay the rent (the “Rent”) set out below, annually in advance, SUBJECT TO clause 2.2, by Electronic Funds Transfer (“EFT”) to the credit of the Landlord’s account or such other method as may be mutually agreed in writing by the parties:</p>
+
+    <table id="rentMirror">
+      <thead>
+        <tr>
+          <th>Duration</th>
+          <th>Rent (in words)</th>
+          <th>Rent (numeric)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- mirrored from form -->
+      </tbody>
+    </table>
+
+    <h3>2.2 VAT and other Taxes Assessments and Charges</h3>
+    <p><strong>Value Added Tax (VAT)</strong><br/>
+    Rent shall be exclusive of VAT and the Landlord shall remit VAT to the Kenya Revenue Authority (KRA) or any other relevant authority. VAT, where applicable, shall be payable by the Tenant to the Landlord upon the Landlord producing an ETR Receipt.</p>
+
+    <p><strong>Withholding Tax on Rental Income at 7.5% or such other applicable rate (WHT)</strong><br/>
+    Rent shall be inclusive of WHT. The Tenant shall withhold and remit to KRA or the relevant body WHT except where the Landlord is exempt from payment of WHT PROVIDED THAT proof of such exemption is supplied to the Tenant prior to execution of this Lease. A WHT Certificate shall be accessible by the Landlord on the Landlord’s iTax Portal. The Tenant shall indemnify the Landlord against all claims whatsoever arising from non-remittance of WHT.</p>
+
+    <h3>2.3 Electricity and Water</h3>
+    <p>To pay all charges for conservancy water electricity and telephone (if any) for the Premises AND to pay for the cost of installing and maintaining separate electricity and water meters for the Premises.</p>
+
+    <h3>2.4 Repair and Maintenance</h3>
+    <p>To keep the Premises and the Landlord’s fixtures and fittings (if any) in good tenantable repair and condition (fair wear and tear and damage by the Insured Risks are excluded except where the insurance moneys shall be irrecoverable by reason of any act or default of the Tenant or the servants licensees or invitees of the Tenant); and To repair any damage caused to any portion of the Premises by the wilful neglect or default of the Tenant or of the servants licensees or invitees of the Tenant.</p>
+
+    <h3>2.5 Inspection for Landlord’s Repairs</h3>
+    <p>Subject to clause 3.14 to permit the Landlord and the agents of the Landlord (accompanied by a representative of the Tenant) with or without workmen and others and with all necessary appliances at all reasonable times and upon giving the Tenant a Forty Eight (48) hours’ notice in writing (except for emergency where the Landlord shall make all necessary and reasonable efforts to notify the Tenant) to enter upon the Premises for the purpose of: executing any repairs for which the Tenant may not be liable under this Lease; or carrying out any maintenance repairs cleaning alterations or other work; to either the Premises or any part of the Land or any adjoining premises or land or to the electricity or water supply or drainage in or under the Premises PROVIDED THAT the Landlord shall immediately repair any damage caused thereby to the Premises.</p>
+
+    <h3>2.6 Permitted Use</h3>
+    <p>The Tenant shall not use the Premises or any part for any purpose other than the Permitted Use. All installations and equipment related to the Permitted Use shall be deemed to be moveable property and shall remain the property of the Tenant. No such property shall become or be deemed to have become part of the Land.</p>
+
+    <h3>2.7 Occupation by Others</h3>
+    <p>Not to permit any person to sleep or reside on the Premises. Not to permit all or part of the Premises to be used for storage of personal or other effects of any member of staff of the Tenant. The Tenant reserves the right to allow any other telecommunications operator to install and operate telecommunications equipment within the Premises subject to Fourteen (14) days written notice by the Tenant to the Landlord.</p>
+
+    <h3>2.8 Landlord’s Insurance</h3>
+    <p>The Landlord shall on or before execution of this Lease provide the Tenant with a copy of the insurance policy or policies... [Clause continues unchanged]</p>
+
+    <!-- Keep the remaining covenants and conditions exactly as in your template. -->
+    <!-- To keep this sample concise, the body below is abbreviated. Replace the abbreviated paragraphs with your full clauses. -->
+
+    <h2>Landlord covenants</h2>
+    <p>Payment of land rent, land rates etc. Consents, Approvals and Wayleave. Electricity. Tenant’s Equipment. Use by other Operators. Non-Interference with Permitted Use. Insurance. Covenants and Conditions of Title. Quiet Enjoyment. Landlord’s Consent. Landlord’s Lien. Access by Landlord. Access and Right of Way. Landlord’s warranty and undertaking.</p>
+
+    <h2>Provisos</h2>
+    <p>Re-Entry and Termination by Landlord. Fire or Destruction of Premises. Renewal (including 5% escalation during renewed Terms). Force Majeure. Tenant’s Default. Redress. Notices. Termination (by Tenant). Data Protection. Governing Law, Jurisdiction and Dispute Resolution. Costs. Miscellaneous.</p>
+
+    <div class="page-break"></div>
+
+    <h2>Execution</h2>
+
+    <div class="sign-block">
+      <p>) Signed by the Landlord</p>
+      <div class="photo-box">Coloured photograph</div>
+      <p>Name: <span data-bind="LANDLORD_NAME" class="underline"></span></p>
+      <p>ID/Passport No.: <span data-bind="LANDLORD_ID" class="underline"></span></p>
+      <p>PIN: <span data-bind="LANDLORD_PIN" class="underline"></span></p>
+      <p>Signature: ______________________________</p>
+      <p class="small">I CERTIFY that <span data-bind="LANDLORD_NAME" class="underline"></span> appeared before me on the ……………. day of …………………… 20… and (being known to me) acknowledged the above signature or mark to be his/hers and that he/she had understood the contents of this instrument, freely and voluntarily executed it.</p>
+      <p class="small">Signature of Witness (Advocate): ______________________ Name: __________________ Address: __________________ Occupation: ADVOCATE</p>
+    </div>
+
+    <div class="sign-block">
+      <p>SIGNED by JOSEPH OGUTU the duly authorized Attorney of SAFARICOM PLC under and by virtue of a Power of Attorney registered at the District Lands Registry at __________________ as Number _______________ on _______________ in the presence of: _______________________ Advocate</p>
+      <p>JOSEPH OGUTU</p>
+      <p class="small">I CERTIFY that JOSEPH OGUTU appeared before me and being known to me and having understood the contents of this instrument freely and voluntarily executed it.</p>
+      <p class="small">Signature of Witness: ____________________ Name: ____________________ Address: ____________________ Occupation: ADVOCATE</p>
+    </div>
+
+    <p class="small">Drawn by: _______________________ | Site Name: <span data-bind="SITE_NAME"></span> | Site Number: <span data-bind="SITE_NUMBER"></span> | File Ref: <span data-bind="FILE_REF"></span></p>
+    <p class="small muted">C3 - Safaricom Confidential External</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  const formInputs = document.querySelectorAll('[data-key]');
+  const rentInputs = document.querySelectorAll('[data-rent]');
+  const leaseRoot = document.getElementById('leaseRoot');
+  const rentTable = document.getElementById('rentTable').querySelector('tbody');
+  const rentMirror = document.getElementById('rentMirror').querySelector('tbody');
+
+  function bindValue(key, value){
+    document.querySelectorAll('[data-bind="'+key+'"]').forEach(el=>{
+      el.textContent = value || '';
+    });
+  }
+
+  formInputs.forEach(inp=>{
+    const key = inp.getAttribute('data-key');
+    const onChange = ()=> bindValue(key, inp.value.trim());
+    inp.addEventListener('input', onChange);
+    // initialize
+    onChange();
+  });
+
+  function rebuildRentMirror(){
+    rentMirror.innerHTML = '';
+    const rows = rentTable.querySelectorAll('tr');
+    rows.forEach((row)=>{
+      const dur = row.querySelector('[data-rent$="_DUR"]')?.value || '';
+      const words = row.querySelector('[data-rent$="_WORDS"]')?.value || '';
+      const num = row.querySelector('[data-rent$="_NUM"]')?.value || '';
+      const tr = document.createElement('tr');
+      tr.innerHTML = '<td>'+escapeHtml(dur)+'</td><td>'+escapeHtml(words)+'</td><td>'+escapeHtml(num)+'</td>';
+      rentMirror.appendChild(tr);
+    });
+  }
+
+  function escapeHtml(s){
+    return (s||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+  }
+
+  rentInputs.forEach(inp=>{
+    inp.addEventListener('input', rebuildRentMirror);
+  });
+  rebuildRentMirror();
+
+  document.getElementById('addRentRow').addEventListener('click', ()=>{
+    const current = rentTable.querySelectorAll('tr').length;
+    const year = current+1;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>Year ${year}</td>
+      <td><input data-rent="Y${year}_DUR" placeholder="… to …" /></td>
+      <td><input data-rent="Y${year}_WORDS" placeholder="Kenya Shillings …" /></td>
+      <td><input data-rent="Y${year}_NUM" placeholder="e.g., 120,000.00" /></td>`;
+    rentTable.appendChild(tr);
+    tr.querySelectorAll('input').forEach(i=> i.addEventListener('input', rebuildRentMirror));
+  });
+
+  document.getElementById('removeRentRow').addEventListener('click', ()=>{
+    const rows = rentTable.querySelectorAll('tr');
+    if(rows.length>1){
+      rows[rows.length-1].remove();
+      rebuildRentMirror();
+    }
+  });
+
+  // Export to Word (.doc) – Word-friendly HTML
+  document.getElementById('btnWord').addEventListener('click', ()=>{
+    const header = `
+      <html xmlns:o="urn:schemas-microsoft-com:office:office"
+            xmlns:w="urn:schemas-microsoft-com:office:word"
+            xmlns="http://www.w3.org/TR/REC-html40">
+      <head>
+        <meta charset="utf-8">
+        <title>Lease</title>
+        <style>
+          @page { size: A4; margin: 2.5cm; }
+          body { font-family: "Times New Roman", serif; line-height: 1.2; font-size: 12.5pt; }
+          h1,h2,h3{ font-weight:700; }
+          table { border-collapse: collapse; width: 100%; }
+          th,td { border: 1px solid #000; padding: 6px; }
+          .center{text-align:center}
+          .underline{border-bottom:1px solid #000; padding: 0 2px;}
+          .page-break{ page-break-before: always; }
+          .photo-box{ width:120px; height:140px; border:1px dashed #000; display:inline-block; text-align:center; line-height:140px; }
+          .small{ font-size:10pt; color:#000 }
+        </style>
+      </head><body>`;
+    const footer = '</body></html>';
+
+    // Make a clone so we can strip edit highlights
+    const clone = leaseRoot.cloneNode(true);
+    clone.removeAttribute('contenteditable');
+    clone.querySelectorAll('[contenteditable]').forEach(el=>el.removeAttribute('contenteditable'));
+
+    const html = header + clone.innerHTML + footer;
+    const blob = new Blob(['\ufeff', html], {type: 'application/msword'});
+    const a = document.createElement('a');
+    const landlord = (document.querySelector('[data-key="LANDLORD_NAME"]')?.value || 'Landlord').replace(/[^a-z0-9]+/gi,'_');
+    const lr = (document.querySelector('[data-key="LR_NUMBER"]')?.value || 'LR').replace(/[^a-z0-9]+/gi,'_');
+    a.download = `Lease_${landlord}_${lr}.doc`;
+    a.href = URL.createObjectURL(blob);
+    a.click();
+    setTimeout(()=> URL.revokeObjectURL(a.href), 1000);
+  });
+
+  document.getElementById('btnPrint').addEventListener('click', ()=> window.print());
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Letter of Offer – Fillable</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{ --font:"Times New Roman", serif; }
+  html,body{margin:0;background:#f6f6f6}
+  body{font-family:var(--font);line-height:1.3;color:#111}
+  .container{max-width:900px;margin:24px auto;padding:24px;background:#fff;box-shadow:0 0 0 1px #ececec}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .toolbar button{border:0;border-radius:6px;padding:8px 12px;cursor:pointer}
+  .toolbar .primary{background:#0a66c2;color:#fff}
+  .toolbar .secondary{background:#555;color:#fff}
+  details.form{border:1px solid #ddd;border-radius:8px;margin-bottom:18px}
+  details.form > summary{padding:10px 14px;background:#f2f2f2;border-radius:8px;cursor:pointer;font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px 16px;padding:14px}
+  label{font-size:12px;color:#333;margin-bottom:4px;display:block}
+  input{width:100%;padding:8px;border:1px solid #d9d9d9;border-radius:6px;font-family:inherit;font-size:14px;background:#fff}
+  .letter{font-size:12.5pt}
+  .letter[contenteditable="true"]{outline:2px dashed #d9e8ff;background:#fbfdff}
+  p{margin:6px 0}
+  ol{margin:6px 0 6px 20px}
+  ul{margin:6px 0 6px 20px}
+  .center{text-align:center}
+  .muted{color:#666}
+  @media print{
+    details.form,.toolbar{display:none !important}
+    .container{box-shadow:none;margin:0;max-width:100%}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="toolbar">
+    <button class="primary" id="btnWord">Download as Word (.doc)</button>
+    <button class="secondary" id="btnPrint">Print / Save as PDF</button>
+  </div>
+
+  <details class="form" open>
+    <summary>Fill letter details</summary>
+    <div class="grid">
+      <div><label>Date (e.g., 21 August, 2025)</label><input data-key="DATE_FULL" placeholder="e.g., 21 August, 2025"></div>
+      <div><label>Recipient name</label><input data-key="RECIPIENT_NAME"></div>
+      <div><label>Recipient P.O. Box</label><input data-key="RECIPIENT_POBOX"></div>
+
+      <div><label>Recipient town</label><input data-key="RECIPIENT_TOWN"></div>
+      <div><label>Agent/firm retained by Safaricom</label><input data-key="AGENT_ENTITY" placeholder="Company/Agent name"></div>
+      <div><label>Property location</label><input data-key="PROPERTY_LOCATION" placeholder="Location / description"></div>
+
+      <div><label>Landlord name</label><input data-key="LANDLORD_NAME"></div>
+      <div><label>Landlord P.O. Box</label><input data-key="LANDLORD_POBOX"></div>
+      <div><label>Landlord town</label><input data-key="LANDLORD_TOWN"></div>
+
+      <div><label>Landlord contact person</label><input data-key="LANDLORD_CONTACT"></div>
+      <div><label>Landlord mobile</label><input data-key="LANDLORD_MOBILE" placeholder="07..."></div>
+      <div><label>Landlord landline</label><input data-key="LANDLORD_LANDLINE" placeholder="Landline (optional)"></div>
+
+      <div><label>Premises size – length (m)</label><input data-key="SIZE_LENGTH" placeholder="e.g., 10"></div>
+      <div><label>Premises size – width (m)</label><input data-key="SIZE_WIDTH" placeholder="e.g., 10"></div>
+      <div><label>LR Number</label><input data-key="LR_NUMBER" placeholder="e.g., L.R. 12345/67"></div>
+
+      <div><label>Commencement Date</label><input data-key="COMMENCE_DATE" placeholder="e.g., 1 September 2025"></div>
+      <div><label>Lease Term (words)</label><input data-key="LEASE_TERM_WORDS" placeholder="e.g., Fifteen"></div>
+      <div><label>Lease Term (years, number)</label><input data-key="LEASE_TERM_NUM" placeholder="e.g., 15"></div>
+
+      <div><label>Annual rent (words)</label><input data-key="RENT_WORDS" placeholder="Kenya Shillings ... only"></div>
+      <div><label>Annual rent (KES numeric)</label><input data-key="RENT_NUM" placeholder="e.g., 120,000.00"></div>
+      <div><label>Signature date</label><input data-key="SIGN_DATE" placeholder="e.g., 21 August 2025"></div>
+
+      <div><label>Director name</label><input data-key="DIRECTOR_NAME"></div>
+      <div><label>Secretary name</label><input data-key="SECRETARY_NAME"></div>
+      <div><label>Authorised site acquisition agent (signatory)</label><input data-key="AGENT_SIGNATORY"></div>
+    </div>
+  </details>
+
+  <div id="letterRoot" class="letter" contenteditable="true">
+    <p>Safaricom PLC | Safaricom House | Waiyaki Way | P. O. Box 66827-00100 | Nairobi | Kenya<br>
+    Tel: 0722003272 | www.safaricom.co.ke</p>
+
+    <p><strong>LETTER OF OFFER</strong> <span data-bind="DATE_FULL"></span></p>
+
+    <p><span data-bind="RECIPIENT_NAME"></span>,<br>
+    P.O. Box <span data-bind="RECIPIENT_POBOX"></span>,<br>
+    <span data-bind="RECIPIENT_TOWN"></span></p>
+
+    <p>“Subject to Contract”</p>
+    <p>Dear Sir,</p>
+
+    <p>SAFARICOM PLC (“Safaricom”) is expanding its mobile telephone network across Kenya. <span data-bind="AGENT_ENTITY"></span> has been retained by Safaricom as its authorised site acquisition agent, to acquire land for the installation of Safaricom Base Stations (tower, equipment shelter, antennae and communications equipment).</p>
+
+    <p>Your property has been identified by our engineers as likely to satisfy our requirements for a Base Station Site. We wish to confirm this by performing a technical review of your property located at <span data-bind="PROPERTY_LOCATION"></span>.</p>
+
+    <p>Upon completion of the technical review/engineering survey and confirmation from our engineers that your property meets our needs, Safaricom will inform you, in writing, that our engineers are ready to commence construction. You will then, grant your written consent for construction to start on the basis of the Lease terms contained in Appendix I of this Letter of Offer.</p>
+
+    <p>The proposed lease terms are summarised below:</p>
+
+    <ol>
+      <li><strong>Landlord:</strong><br>
+        <span data-bind="LANDLORD_NAME"></span>,<br>
+        P.O. Box <span data-bind="LANDLORD_POBOX"></span><br>
+        <span data-bind="LANDLORD_TOWN"></span><br>
+        Contact Person: <span data-bind="LANDLORD_CONTACT"></span> - <span data-bind="LANDLORD_MOBILE"></span> / landline <span data-bind="LANDLORD_LANDLINE"></span>
+      </li>
+
+      <li><strong>Tenant:</strong><br>
+        Safaricom PLC<br>
+        Safaricom House, Waiyaki way<br>
+        P.O. Box 66827-00800<br>
+        Nairobi<br>
+        Telephone: 0722003272<br>
+        Attention: Senior Manager, Infrastructure Support
+      </li>
+
+      <li><strong>Proposed Premises - Location and Size:</strong><br>
+        The premises measuring <span data-bind="SIZE_LENGTH"></span> meters by <span data-bind="SIZE_WIDTH"></span> meters is situated on L.R.No <span data-bind="LR_NUMBER"></span>. A Site Plan/drawing showing the proposed location of Safaricom’s tower and related equipment will be provided to you after completion of the technical review. All necessary improvements will be made at Safaricom’s cost.<br><br>
+        You will reserve the right to confirm whether the proposed premises can be used for the intended purposes.
+      </li>
+    </ol>
+
+    <p><strong>Access:</strong><br>
+    Safaricom will require access to the premises proposed to be leased and its equipment. The access to the property and the equipment will be in accordance with your access control procedures that will be communicated to Safaricom, in writing. In addition, prior to the Commencement Date of the Lease, Safaricom will require access to your property to conduct the technical review/engineering survey. Acceptance of this offer will allow Safaricom to proceed with access of the property.</p>
+
+    <p><strong>Commencement Date of Lease Term and Rent:</strong><br>
+    Subject to issuance of all necessary permits, the date of commencement of the Lease and payment of the Rent shall be <span data-bind="COMMENCE_DATE"></span> (“Commencement Date”).</p>
+
+    <p><strong>Lease Term:</strong><br>
+    The initial Lease Term would be for a period of <span data-bind="LEASE_TERM_WORDS"></span> (<span data-bind="LEASE_TERM_NUM"></span>) years from the Commencement Date and the Parties shall have an option to renew for a further term on the terms and conditions that the Parties may agree in writing.</p>
+
+    <p><strong>Annual Rent Amount (Payable 12 months in Advance):</strong><br>
+    The annual rent payable by Safaricom to the Landlord will be Kenya Shillings <span data-bind="RENT_WORDS"></span> only (KES. <span data-bind="RENT_NUM"></span>/-) exclusive of VAT. The annual rent amount will increase by five per cent (5%) at the beginning of each twelve (12) month period.<br><br>
+    Rent shall be inclusive of withholding tax on rental income. For the avoidance of doubt, the Tenant shall withhold and remit to the relevant body 7.5% withholding tax on rental income or such other applicable rate except where the Landlord is exempt from payment of such withholding tax, with proof of such exemption having been supplied to the Tenant prior to execution of the Agreement</p>
+
+    <p><strong>Use:</strong><br>
+    The Premises will be used for uses specific to the telecommunications industry and a telecommunications base station including the installation, collocating, upgrading, removing, replacing, maintaining and operating of mobile telecommunications antennae and related equipment SUBJECT TO receipt of such consents as shall be necessary under the relevant county laws, planning regulations or any other applicable laws AND such other further consents as may be required by Safaricom or you as Landlord.</p>
+
+    <p><strong>Technical Review and Lease</strong><br>
+    Subject to a successful completion of the technical review by Safaricom the Parties will execute a Lease over the Premises. Safaricom will send the draft lease for your review and confirmation of terms. The main terms of the Lease are contained in Appendix I of this Letter of Offer.</p>
+
+    <p><strong>Possession, Start of Construction and Safaricom Standard Lease</strong><br>
+    Once the final lease has been executed by both parties, Safaricom will stamp and register the Lease. The cost of stamp duty and registration fees shall be borne solely by Safaricom. Safaricom will also bear your advocate’s fees, PROVIDED THAT the fee notes are drawn to scale.<br><br>
+    Safaricom will, within fourteen (14) days of the Commencement Date, pay you the Rent for the First year of the Term granted under this Letter of Offer and you will hand over possession of the Premises to Safaricom to allow start of construction.<br><br>
+    For all intents and purposes, this Letter of Offer will, upon your written confirmation that Safaricom can commence construction, be deemed to be an agreement to lease.</p>
+
+    <p><strong>Required Documents</strong><br>
+    Upon execution of this Letter of Offer and upon confirmation by Safaricom that the Premises meets its requirements, the Landlord will avail to Safaricom or its appointed advocates the documents/certificates mentioned below (and any other as required by law) to enable Safaricom register the final lease as required under statute:</p>
+
+    <ul>
+      <li>Copy of the Landlord’s P.I.N. Certificate</li>
+      <li>Proof of verification of Title on the Land Information Management System run on eCitizen.</li>
+      <li>Original Title Deed/Certificate of Title/ Certificate of Lease and any other original title documentation in respect of the property, PROVIDED that the same may only be released subject to provision of a professional undertaking by Safaricom’s advocates, in the form required by you.</li>
+      <li>Deed Plan where applicable.</li>
+      <li>Original Land Rent Receipt and/or original Rent Clearance Certificate for the current year.</li>
+      <li>Original Rates Receipt and/or Rates Clearance Certificate for the current year where specifically requested.</li>
+      <li>Copies of your Certificate of Incorporation.</li>
+      <li>A letter/notification of the organisation’s authorised signatories.</li>
+    </ul>
+
+    <p><strong>Data Protection</strong><br>
+    “Personal Data” means the Landlord’s personal information including, but not limited to, copies of national ID, Passport, KRA PIN, photographs, bank account details, physical, postal and email address as collected by the Tenant.<br>
+    The Parties will during the validity of this Letter of Offer or the duration of the Lease Term comply with the Data Protection Act and regulations thereunder.<br>
+    Personal Data will be collected by the Tenant for the following purposes and any other purpose relevant to this Letter or Offer:
+    </p>
+    <ul>
+      <li>Preparation or execution of this Letter of Offer;</li>
+      <li>Preparation, execution, stamping and registration of the Lease;</li>
+      <li>Maintenance of a contact list for correspondence with the Landlord;</li>
+      <li>For payment of rent, accounting and record keeping; and</li>
+      <li>Compliance with the law.</li>
+    </ul>
+    <p>By acceptance of this Letter of Offer, the Landlord gives consent to the Tenant to lawfully share the Personal Data with its agents, service providers and connected persons to achieve the objectives in clause 11 (c).<br>
+    The Tenant has established technical and operational measures to ensure integrity and confidentiality of the Landlord’s data by way of controls on information classification, access control, cryptography, confidentiality agreements with agents and external service providers and physical and environmental monitoring and compliance.<br>
+    The Landlord will have the following rights for the duration the Personal Data is collected and maintained by the Tenant:
+    </p>
+    <ul>
+      <li>To be informed of the use of the Personal Data;</li>
+      <li>To access the Personal Data;</li>
+      <li>To object to the processing of all or part of the Personal Data where such processing is done in violation of the terms of this Letter of Offer;</li>
+      <li>To correct false or misleading Personal Data; and</li>
+      <li>To the deletion of false or misleading Personal Data.</li>
+    </ul>
+    <p>By acceptance of this Letter of Offer, the Landlord confirms that it/he/she has accessed the Tenant’s Data Privacy Statement on https://www.safaricom.co.ke/dataprivacystatement/, read and understood the contents.</p>
+
+    <p><strong>12. Acceptance in Principle</strong><br>
+    If you wish to proceed based on the terms set out in this Letter of Offer, please sign two copies of this letter, and return one copy to us within seven (7) days of the date of this letter. Please indicate to us when we might perform the technical review/engineering survey of your property.<br><br>
+    Kindly note that this Letter of Offer does not commit Safaricom to erecting a Base Station on your property and further that Safaricom is under no obligation to fulfil the terms mentioned herein unless the final Lease are executed by it.<br><br>
+    We thank you for taking the time to review this proposal. We look forward to working with you and executing the final lease in the near future.</p>
+
+    <p>Yours faithfully<br><br>
+    For and on behalf of Safaricom PLC<br>
+    By: <span data-bind="AGENT_SIGNATORY"></span><br>
+    (Authorised Safaricom Site Acquisition Agent)</p>
+
+    <p><strong>Consent to Proceed with Technical Review of Property and Acceptance of the above terms and conditions:</strong></p>
+
+    <p>Executed by:<br>
+    Director - <span data-bind="DIRECTOR_NAME"></span> )<br>
+    Secretary - <span data-bind="SECRETARY_NAME"></span> )<br>
+    )<br>
+    )<br>
+    In the presence of: )<br>
+    )<br>
+    )<br>
+    )<br>
+    For and on behalf of landlord<br>
+    Date: <span data-bind="SIGN_DATE"></span></p>
+
+    <p><strong>APPENDIX I: AGREED MAIN TERMS OF THE LEASE</strong><br>
+    - -</p>
+
+    <p>2</p>
+
+    <p class="muted">C3 - Safaricom Confidential External</p>
+    <p class="muted">C3 - Safaricom Confidential External</p>
+    <p class="muted">C3 - Safaricom Confidential External</p>
+    <p class="muted">C3 - Safaricom Confidential External</p>
+    <p class="muted">C3 - Safaricom Confidential External</p>
+    <p class="muted">C3 - Safaricom Confidential External</p>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  // Bind form inputs to placeholders in the letter
+  document.querySelectorAll('[data-key]').forEach(inp=>{
+    const key = inp.getAttribute('data-key');
+    const sync = ()=>{
+      document.querySelectorAll('[data-bind="'+key+'"]').forEach(span=>{
+        span.textContent = inp.value || '';
+      });
+    };
+    inp.addEventListener('input', sync);
+    sync();
+  });
+
+  // Export to Word (.doc) using Word-friendly HTML
+  document.getElementById('btnWord').addEventListener('click', ()=>{
+    const root = document.getElementById('letterRoot');
+    const clone = root.cloneNode(true);
+    clone.removeAttribute('contenteditable');
+
+    const html =
+      '<html xmlns:o="urn:schemas-microsoft-com:office:office" ' +
+      'xmlns:w="urn:schemas-microsoft-com:office:word" ' +
+      'xmlns="http://www.w3.org/TR/REC-html40">' +
+      '<head><meta charset="utf-8"><title>Letter of Offer</title>' +
+      // Make document text justified, keep .center centred and preserve list indentation
+      '<style>@page{size:A4;margin:2.5cm} ' +
+      'body{font-family:"Times New Roman",serif;font-size:12.5pt;line-height:1.25; text-align:justify; color:#000} ' +
+      'p, li { margin:6px 0; text-align:justify; } ' +
+      'ol, ul { margin:6px 0 6px 20px; } ' +
+      '.center{ text-align:center !important; } ' +
+      '</style>' +
+      '</head><body>' + clone.innerHTML + '</body></html>';
+
+    const blob = new Blob(['\ufeff', html], {type:'application/msword'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    const date = (document.querySelector('[data-key="DATE_FULL"]')?.value || 'Letter').replace(/[^a-z0-9]+/gi,'_');
+    a.download = `Letter_of_Offer_${date}.doc`;
+    document.body.appendChild(a);
+    a.click();
+    URL.revokeObjectURL(a.href);
+    a.remove();
+  });
+
+  document.getElementById('btnPrint').addEventListener('click', ()=> window.print());
+})();
+</script>
+</body>
+</html>

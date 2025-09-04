@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Licence Agreement – Fillable (Peppercorn)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{ --font:"Times New Roman", serif; }
+  html,body{margin:0;background:#f6f6f6}
+  body{font-family:var(--font);line-height:1.3;color:#111}
+  .container{max-width:900px;margin:24px auto;padding:24px;background:#fff;box-shadow:0 0 0 1px #ececec}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .toolbar button{border:0;border-radius:6px;padding:8px 12px;cursor:pointer}
+  .toolbar .primary{background:#0a66c2;color:#fff}
+  .toolbar .secondary{background:#555;color:#fff}
+  details.form{border:1px solid #ddd;border-radius:8px;margin-bottom:18px}
+  details.form > summary{padding:10px 14px;background:#f2f2f2;border-radius:8px;cursor:pointer;font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px 16px;padding:14px}
+  label{font-size:12px;color:#333;margin-bottom:4px;display:block}
+  input{width:100%;padding:8px;border:1px solid #d9d9d9;border-radius:6px;font-family:inherit;font-size:14px;background:#fff}
+  .agreement{font-size:12.5pt}
+  .agreement[contenteditable="true"]{outline:2px dashed #d9e8ff;background:#fbfdff}
+  p{margin:6px 0}
+  ul,ol{margin:6px 0 6px 20px}
+  .center{text-align:center}
+  .muted{color:#666}
+  .underline{display:inline-block;min-width:80px;border-bottom:1px dotted #777;padding:0 2px}
+  @media print{
+    details.form,.toolbar{display:none !important}
+    .container{box-shadow:none;margin:0;max-width:100%}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="toolbar">
+    <button class="primary" id="btnWord">Download as Word (.doc)</button>
+    <button class="secondary" id="btnPrint">Print / Save as PDF</button>
+  </div>
+
+  <details class="form" open>
+    <summary>Fill licence details</summary>
+    <div class="grid">
+      <div><label>Date – Day</label><input data-key="DATE_DAY" placeholder="e.g., 21st"></div>
+      <div><label>Date – Month</label><input data-key="DATE_MONTH" placeholder="e.g., August"></div>
+      <div><label>Date – Year</label><input data-key="DATE_YEAR" placeholder="e.g., 2025"></div>
+
+      <div><label>Licensor name</label><input data-key="LICENSOR_NAME"></div>
+      <div><label>Licensor P.O. Box number (with code)</label><input data-key="LICENSOR_POBOX" placeholder="e.g., 31936-00100"></div>
+      <div><label>Licensor town</label><input data-key="LICENSOR_TOWN" placeholder="e.g., Nairobi"></div>
+
+      <div><label>Licensor country</label><input data-key="LICENSOR_COUNTRY" placeholder="e.g., Kenya"></div>
+      <div><label>Part of property description (header)</label><input data-key="PROPERTY_PART_DESC" placeholder="e.g., Rooftop area, Block A"></div>
+      <div><label>LR Number</label><input data-key="LR_NUMBER" placeholder="e.g., L.R. 12345/67"></div>
+
+      <div><label>Building/Premises name</label><input data-key="BUILDING_NAME" placeholder="e.g., Westgate Towers"></div>
+      <div><label>Term (words)</label><input data-key="TERM_WORDS" placeholder="e.g., Six"></div>
+      <div><label>Term (years, number)</label><input data-key="TERM_NUM" placeholder="e.g., 6"></div>
+
+      <div><label>Commencement – Day</label><input data-key="COMMENCE_DAY" placeholder="e.g., 1st"></div>
+      <div><label>Commencement – Month</label><input data-key="COMMENCE_MONTH" placeholder="e.g., September"></div>
+      <div><label>Commencement – Year</label><input data-key="COMMENCE_YEAR" placeholder="e.g., 2025"></div>
+
+      <div><label>Commencement – words in brackets</label><input data-key="COMMENCE_WORDS" placeholder="e.g., Two Thousand and Twenty-Five (2025)"></div>
+      <div><label>Power of Attorney – attorney name</label><input data-key="ATTORNEY_NAME" placeholder="e.g., JOSEPH OGUTU"></div>
+      <div><label>Power of Attorney – registry location</label><input data-key="POA_REGISTRY_LOCATION" placeholder="e.g., Registry of Documents at Nairobi"></div>
+
+      <div><label>Power of Attorney – number</label><input data-key="POA_NUMBER" placeholder="e.g., 1234"></div>
+      <div><label>Power of Attorney – date</label><input data-key="POA_DATE" placeholder="e.g., 10 August 2020"></div>
+      <div><label>Drawn by</label><input data-key="DRAWN_BY" placeholder="Firm / Advocate"></div>
+
+      <div><label>Certification – Licensor name 1</label><input data-key="CERT_LICENSOR_NAME_1"></div>
+      <div><label>Certification – Licensor name 2</label><input data-key="CERT_LICENSOR_NAME_2"></div>
+      <div><label>Witness (Licensor) name</label><input data-key="WITNESS_LICENSOR_NAME"></div>
+
+      <div><label>Witness (Licensor) address</label><input data-key="WITNESS_LICENSOR_ADDRESS"></div>
+      <div><label>Witness (Licensee) name</label><input data-key="WITNESS_LICENSEE_NAME"></div>
+      <div><label>Witness (Licensee) address</label><input data-key="WITNESS_LICENSEE_ADDRESS"></div>
+
+      <div><label>Site No</label><input data-key="SITE_NO"></div>
+      <div><label>Site Name</label><input data-key="SITE_NAME"></div>
+      <div><label>File Ref</label><input data-key="FILE_REF"></div>
+    </div>
+  </details>
+
+  <div id="agreementRoot" class="agreement" contenteditable="true">
+    <p><strong>DATED THIS</strong> <span data-bind="DATE_DAY" class="underline"></span> <strong>DAY OF</strong> <span data-bind="DATE_MONTH" class="underline"></span> <span data-bind="DATE_YEAR" class="underline"></span></p>
+    <p><span data-bind="LICENSOR_NAME" class="underline"></span><br>(“THE LICENSOR”)</p>
+    <p>&amp;<br>SAFARICOM PLC<br>(“THE LICENSEE”)</p>
+    <p><strong>LICENCE AGREEMENT</strong><br>OVER<br>PART OF PROPERTY <span data-bind="PROPERTY_PART_DESC" class="underline"></span>.</p>
+    <p>Drawn by:- <span data-bind="DRAWN_BY" class="underline"></span></p>
+
+    <p class="center"><strong>LICENCE AGREEMENT</strong></p>
+
+    <p>This Licence Agreement is made this <span data-bind="DATE_DAY" class="underline"></span> day of <span data-bind="DATE_MONTH" class="underline"></span> <span data-bind="DATE_YEAR" class="underline"></span></p>
+
+    <p><strong>BETWEEN</strong><br>
+    <span data-bind="LICENSOR_NAME" class="underline"></span> of P.O. Box Number <span data-bind="LICENSOR_POBOX" class="underline"></span>, <span data-bind="LICENSOR_TOWN" class="underline"></span>, <span data-bind="LICENSOR_COUNTRY" class="underline"></span> (“the Licensor”).</p>
+
+    <p><strong>AND</strong><br>
+    2) SAFARICOM PLC of P.O. Box 66827-00800 Nairobi, Kenya (“the Licensee”).</p>
+
+    <p><strong>WHEREAS:</strong></p>
+    <p>The Licensor is the registered proprietor of the land comprised in L.R. NO. <span data-bind="LR_NUMBER" class="underline"></span> situated in <span data-bind="LICENSOR_TOWN" class="underline"></span> being all that area shown edged on the Plan. (“the Land’’).</p>
+    <p>The Licensor has erected or caused to be erected on the Land the buildings and structures known as “<span data-bind="BUILDING_NAME" class="underline"></span>” (“the Premises”).</p>
+    <p>The Licensor has agreed to grant to the Licensee a licence (the “Licence”) over a part of the Premises as shown on the plan (“the Site”) with the right to install a telecommunications tower and all ancillary equipment including but not limited to antennae, transmission devices, cable tray, aviation lighting, equipment cabin and generator house on the Site subject to the terms and conditions that follow.</p>
+
+    <p><strong>IT IS AGREED as follows:-</strong></p>
+
+    <p><strong>THE LICENCE</strong><br>
+    The Licensor hereby grants to the Licensee a Licence over part of the Premises for the Licensee to install and maintain a telecommunications tower and all ancillary equipment thereto on the Land (“the Site”) as more particularly indicated on the plan and drawings attached as the First Schedule hereto (together called “the Drawings”).</p>
+
+    <p><strong>THE TERM</strong><br>
+    The term of the Licence shall be <span data-bind="TERM_WORDS" class="underline"></span> (<span data-bind="TERM_NUM" class="underline"></span>) years (“the Term”) commencing on the <span data-bind="COMMENCE_DAY" class="underline"></span> day of <span data-bind="COMMENCE_MONTH" class="underline"></span>, <span data-bind="COMMENCE_YEAR" class="underline"></span> (<span data-bind="COMMENCE_WORDS" class="underline"></span>) (“the Commencement Date”) with an option to renew the Term as set out in Clause 4 of this Licence.</p>
+
+    <p><strong>THE LICENCE FEE</strong><br>
+    The Licensor and the Licensee hereby agree that the licence fee throughout the Term shall be peppercorn.</p>
+
+    <p><strong>RENEWAL</strong><br>
+    It is agreed between the parties that if the Licensee shall at all times have duly performed and observed all the covenants and agreements contained or implied in this Licence to be performed and observed on its part then this Licence shall, unless the Licensee gives to the Licensor one (1) month’s notice to terminate, automatically renew (at the cost of the Licensee) for a further term of Six (6) years BUT subject otherwise to the same covenants and agreements contained or implied in this Licence PROVIDED THAT the Licensor shall have obtained any requisite extension of its leasehold title to the Land from the relevant superior landlord of the Land (if any). In the event that the Licensor should have failed to obtain such an extension of its leasehold title by the commencement of the final month of the Term the Licensee may at any time after by notice in writing revoke its intention to renew the Licence PROVIDED THAT any holdover by the Licensee at the end of the last renewed Term of the Licence shall be deemed to be a month-to-month tenancy under the same terms and conditions of the Licence and during such holdover period the Licence may be terminated, by either party upon giving Thirty (30) days written notice to the other.</p>
+
+    <p><strong>LICENSOR’S OBLIGATIONS</strong><br>
+    The Licensor shall:</p>
+    <ol>
+      <li>Allow the Licensee to install, upgrade, remove, replace, repair, maintain and operate the mobile telecommunications antennae and related equipment and such other related purposes as may be required by the Licensee from time to time (“the Permitted Use”) and the Licensor shall allow the Licensee (or its agents or contractors) to carry out all other works pursuant to the Permitted Use.</li>
+      <li>Grant to the Licensee the right or easement at no additional cost to erect lay alter maintain repair or inspect an electric line and/or fibre cable either overhead or underground or as may otherwise be required across the Land as shall be required for the Permitted Use.</li>
+      <li>Allow the Licensee access to the Site at all times (24 hours per day, 365 days per year) for the purposes of carrying out the installation repair maintenance and replacement of the equipment.</li>
+      <li>Not to permit and to take all necessary steps to prevent its servants agents or licensees or any other person (s) under its direct or indirect control to tamper with or interfere in anyway with the Licensee’s equipment.</li>
+    </ol>
+
+    <p><strong>LICENSEE’S OBLIGATIONS:</strong><br>
+    The Licensee shall:</p>
+    <ol>
+      <li>Be responsible for all the costs of installing and operating its equipment, and to refund to the Licensor the cost of the electricity consumed by the Licensee at the Site.</li>
+      <li>Obtain at its own cost all necessary consents licences and approvals from the relevant authorities for the Permitted Use.</li>
+      <li>Upon expiration or sooner determination of this Licence, make good any damage caused to the Land and restore the Land to the condition in which the Land were at the commencement of the Term fair wear and tear excepted.</li>
+      <li>Not do or suffer or permit anything whatsoever to or which may cause interference, nuisance, annoyance, inconvenience, disturbances, loss or damage to the Land or to the Licensor's personnel or to the owner and or occupants of any adjoining and neighbouring land.</li>
+      <li>Not assign this License or any benefit under it nor to grant or purport to grant any rights in respect of the Licence to any third party and the Licensee acknowledges that this License is exclusive to it and its successors and assigns and is incapable of being assigned or otherwise disposed of either in whole or part PROVIDED THAT the Licensee may with the consent of the Licensor which consent shall not be unreasonably withheld transfer the benefits of the rights granted by this Licence to any company which is a member of the same group of companies, namely a company which is a parent, subsidiary or a holding company of the Licensee (as defined in the Companies Act, 2015 Laws of Kenya) or a company which has the same holding company as the Licensee.</li>
+      <li>Maintain insurance against public liability and other third party liability in connection with any injury, loss or damage to any person or property arising out of the exercise by the Licensee its employees or independent contractors of the rights granted by this License and to provide details of such insurance to the Licensor.</li>
+    </ol>
+
+    <p><strong>WARRANTIES</strong><br>
+    The Licensor warrants that it has legal title to the Land and has obtained all necessary consents and approvals required for it to properly enter into and grant this Licence. The Licensor acknowledges that the Licensee has invested a substantial sum of money in installing its equipment. The Licensor undertakes to immediately notify the Lisensee of its intention to lease licence transfer or sublet the Land or the Building to a third party and further that the Licensor shall use its best endeavours to facilitate and procure that such lease licence transfer sublease or any other similar or related arrangement, prior to the expiry of this Licence, shall be made with an express condition that the same is subject to this Licence.</p>
+
+    <p><strong>NON- EXCLUSIVITY &amp; NON-INTERFERENCE</strong><br>
+    The parties hereby agree that this Licence does not give the Licensee the exclusive right to install their equipment on the Premises and THAT SUBJECT to this understanding the Licensor shall consult with and provide the Licensee with at least Thirty (30) days prior written notice of its intention to grant any other telecommunications provider permission to erect any equipment on any part of the Premises PROVIDED ALWAYS THAT the Licensor shall not permit any other telecommunications provider permission to erect any equipment which shall interfere with the Licensee’s Permitted Use. The Licensee reserves the right to allow any other telecommunications operator to install and operate telecommunications equipment within the Site SUBJECT TO Fourteen (14) days prior written notification by the Licensee to the Licensor.</p>
+
+    <p><strong>DATA PROTECTION</strong><br>
+    “Personal Data” means the Licensor’s personal information including, but not limited to, copies of national ID, Passport, KRA PIN, photographs, bank account details, telephone number, physical, postal and email address as collected by the Licensee;<br>
+    The parties will during the Term comply with the Data Protection Act and Regulations.<br>
+    Personal Data will be collected by the Licensee for the following purposes and any other purpose relevant to this Licence:</p>
+    <ul>
+      <li>Preparation, execution, stamping and registration of this Licence;</li>
+      <li>Maintenance of a contact list for correspondence with the Licensor;</li>
+      <li>For payment of rent, accounting and record keeping; and</li>
+      <li>Compliance with the law.</li>
+    </ul>
+    <p>By execution of this Licence, the Licensor gives consent to the Licensee to lawfully share the Personal Data with its agents, service providers and connected persons to achieve the objectives in clause 9 (c).<br>
+    The Licensee has established technical and operational measures to ensure integrity and confidentiality of the Licensor’s data by way of controls on information classification, access control, cryptography, confidentiality agreements with agents and external service providers and physical and environmental monitoring and compliance.<br>
+    The Licensor will have the following rights for the duration the Personal Data is collected and maintained by the Licensee:</p>
+    <ul>
+      <li>To be informed of the use of the Personal Data;</li>
+      <li>To access the Personal Data;</li>
+      <li>To object to the processing of all or part of the Personal Data where such processing is done in violation of the terms of this Licence;</li>
+      <li>To correct false or misleading Personal Data; and</li>
+      <li>To the deletion of false or misleading Personal Data.</li>
+    </ul>
+    <p>By execution of this Licence, the Licensor confirms that it/he/she has accessed the Licensee’s Data Privacy Statement on https://www.safaricom.co.ke/dataprivacystatement/, read and understood the contents.</p>
+
+    <p><strong>THE GOVERNING LAW</strong><br>
+    The parties hereby agree that this Licence shall be construed in accordance with and governed by the Laws of the Republic of Kenya.</p>
+
+    <p><strong>NOTICES</strong><br>
+    Any notice or other communication bill or statement provided for by this Licence shall be in writing and any notice communication bill or statement to the Licensee shall be sufficiently served if addressed to the Licensee and delivered by hand to the site or sent by registered post or facsimile to the following address:</p>
+
+    <p>Safaricom PLC<br>
+    Safaricom House<br>
+    Waiyaki Way<br>
+    Post Office Box Number 66827 - 00800<br>
+    Nairobi<br>
+    Telephone: 0722003272<br>
+    Attention: The Infrastructure and Property Manager</p>
+
+    <p>and any notice or communication to the Licensor shall be sufficiently served if delivered by registered post to its aforestated postal address or to any other address which the Licensor may in writing inform the Licensee. Any notice communication bill or statement served by registered post shall be deemed to have been served within Seven (7) days following the day on which it is posted or any notice communication bill or statement served by registered post shall be deemed to have been served within Seven (7) days following the day on which it is posted or if sent by facsimile on completion of successful and confirmed transmission.</p>
+
+    <p><strong>TERMINATION</strong><br>
+    The Licensor may terminate this Licence at any time upon giving the Licensee six (6) months prior written notice.<br>
+    The Licensee may terminate this Licence upon giving the Licensor six (6) months prior written notice or by paying six (6) months of the applicable Licence Fee in lieu of such notice.</p>
+
+    <p><strong>ARBITRATION</strong><br>
+    The parties agree that any controversy or claim arising out of or relating to this Licence (including without limitation any alleged breach) which shall not have been mutually resolved by the parties shall be referred to arbitration. A single Arbitrator shall be appointed by agreement between both parties and the decision of the Arbitrator shall be binding upon the parties. Any arbitration proceedings shall take place in Nairobi.</p>
+    <p>If for whatever reason both parties fail to agree on the appointment of a single Arbitrator the dispute shall be referred upon application by either party to the Chairman for the time being of the Kenya Branch of Chartered Institute of Arbitrators of the United Kingdom who shall appoint an Arbitrator.</p>
+    <p>The provisions of the Arbitration Act 1995 or the Act or Acts for the time being in force in Kenya in relation to arbitration shall apply.</p>
+    <p>Save for the Arbitral Award, each Party shall bear its own costs of the Arbitration.</p>
+
+    <p><strong>MISCELLANEOUS</strong><br>
+    All references made to the Licensor and Safaricom shall include their respective successors and assigns.<br>
+    The time limits and other matters provided in this Agreement may from time to time be varied or extended upon the written consent of both parties.</p>
+
+    <p><strong>THE FIRST SCHEDULE</strong><br>
+    The Drawings (attached)</p>
+
+    <p><strong>IN WITNESS OF WHICH</strong> the duly authorised representatives of Safaricom and the Licensor have set their hands on the day and year on the first page of this Licence Agreement.</p>
+
+    <p><strong>SIGNED by the Licensor</strong><br>
+    <span data-bind="LICENSOR_NAME" class="underline"></span> )<br>
+    (“the Licensor”) )<br>
+    )<br>
+    In the presence of: ) )<br>
+    Director )<br>
+    )<br>
+    )<br>
+    Director/Secretary ) ______________________________<br>
+    )</p>
+
+    <p>I CERTIFY that <span data-bind="CERT_LICENSOR_NAME_1" class="underline"></span> and <span data-bind="CERT_LICENSOR_NAME_2" class="underline"></span> appeared before me on the ……………. Day of …………………… 20… and (being known to me) acknowledged the above signature or mark to be his/hers and that he/she had understood the contents of this instrument, freely and voluntarily executed it.</p>
+
+    <p>Signature of Witness:<br>
+    Name: <span data-bind="WITNESS_LICENSOR_NAME" class="underline"></span><br>
+    Address: <span data-bind="WITNESS_LICENSOR_ADDRESS" class="underline"></span><br>
+    Occupation: ADVOCATE</p>
+
+    <p><strong>SIGNED by </strong>)<br>
+    the duly authorised Attorney of SAFARICOM )<br>
+    PLC under and by virtue of a )<br>
+    Power of Attorney registered at the )<br>
+    <span data-bind="POA_REGISTRY_LOCATION" class="underline"></span> as Number <span data-bind="POA_NUMBER" class="underline"></span> )<br>
+    on <span data-bind="POA_DATE" class="underline"></span> )<br>
+    )<br>
+    In the presence of: )<br>
+    )<br>
+    )<br>
+    )<br>
+    )</p>
+
+    <p>I CERTIFY that <span data-bind="ATTORNEY_NAME" class="underline"></span> appeared before me and being known to me and having understood the contents of this instrument freely and voluntarily executed it.</p>
+
+    <p>Signature of Witness:<br>
+    Name: <span data-bind="WITNESS_LICENSEE_NAME" class="underline"></span><br>
+    Address: <span data-bind="WITNESS_LICENSEE_ADDRESS" class="underline"></span><br>
+    Occupation: ADVOCATE</p>
+
+    <p>Drawn by:- <span data-bind="DRAWN_BY" class="underline"></span></p>
+
+    <p class="muted">C3 - Safaricom Confidential External</p>
+    <p>2</p>
+    <p class="muted">C3 - Safaricom Confidential External</p>
+    <p class="muted">C3 - Safaricom Confidential External</p>
+
+    <p><strong>Licence Agreement</strong><br>
+    Site No: <span data-bind="SITE_NO" class="underline"></span><br>
+    Site Name: <span data-bind="SITE_NAME" class="underline"></span><br>
+    File Ref: <span data-bind="FILE_REF" class="underline"></span></p>
+
+    <p class="muted">C3 - Safaricom Confidential External</p>
+    <p><strong>Licence Agreement</strong></p>
+    <p class="muted">C3 - Safaricom Confidential External</p>
+    <p class="muted">C3 - Safaricom Confidential External</p>
+
+    <p>Site No: <span data-bind="SITE_NO" class="underline"></span><br>
+    Site Name: <span data-bind="SITE_NAME" class="underline"></span><br>
+    File Ref: <span data-bind="FILE_REF" class="underline"></span></p>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  // Bind form inputs to placeholders in the agreement
+  document.querySelectorAll('[data-key]').forEach(inp=>{
+    const key = inp.getAttribute('data-key');
+    const sync = ()=>{
+      document.querySelectorAll('[data-bind="'+key+'"]').forEach(span=>{
+        span.textContent = inp.value || '';
+      });
+    };
+    inp.addEventListener('input', sync);
+    sync();
+  });
+
+  // Export to Word (.doc) using Word-friendly HTML
+  document.getElementById('btnWord').addEventListener('click', ()=>{
+    const root = document.getElementById('agreementRoot');
+    const clone = root.cloneNode(true);
+    clone.removeAttribute('contenteditable');
+
+    const html =
+      '<html xmlns:o="urn:schemas-microsoft-com:office:office" ' +
+      'xmlns:w="urn:schemas-microsoft-com:office:word" ' +
+      'xmlns="http://www.w3.org/TR/REC-html40">' +
+      '<head><meta charset="utf-8"><title>Licence Agreement</title>' +
+      '<style>@page{size:A4;margin:2.5cm} body{font-family:\\\"Times New Roman\\\",serif;font-size:12.5pt;line-height:1.25} p{margin:6px 0} ol,ul{margin:6px 0 6px 20px} .underline{border-bottom:1px dotted #000;padding:0 2px}</style>' +
+      '</head><body>' + clone.innerHTML + '</body></html>';
+
+    const blob = new Blob(['\ufeff', html], {type:'application/msword'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    const licensor = (document.querySelector('[data-key="LICENSOR_NAME"]')?.value || 'Licensor').replace(/[^a-z0-9]+/gi,'_');
+    const lr = (document.querySelector('[data-key="LR_NUMBER"]')?.value || 'LR').replace(/[^a-z0-9]+/gi,'_');
+    a.download = `Licence_Agreement_${licensor}_${lr}.doc`;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  });
+
+  document.getElementById('btnPrint').addEventListener('click', ()=> window.print());
+})();
+</script>
+</body>
+</html>

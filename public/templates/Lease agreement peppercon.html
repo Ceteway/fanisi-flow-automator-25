@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Residential Lease – Safaricom PLC</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  /* Page + body baseline for A4 print layout */
+  @page { size: A4; margin: 20mm; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 12pt;
+    line-height: 1.45;                /* slightly more airy for readability */
+    color: #000;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: #fff;
+    padding: 0;
+  }
+
+  /* Center the document to the printable area and constrain width to A4 minus page margins */
+  .doc {
+    width: calc(210mm - 40mm);       /* A4 width (210mm) less left+right @page margins (20mm each) */
+    max-width: 100%;
+    margin: 0 auto 24px;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  /* Controls (hidden when printing) */
+  .controls {
+    font-family: system-ui, "Segoe UI", Arial, sans-serif;
+    font-size: 14px;
+    padding: 12px 14px;
+    border: 1px solid #d0d7de;
+    border-radius: 8px;
+    background: #f6f8fa;
+    margin: 12px auto 16px;
+    max-width: calc(210mm - 40mm);
+  }
+
+  .controls h2 { margin: 0 0 8px 0; font-size: 16px; }
+
+  /* Grid/form styles (unchanged structure) */
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(220px, 1fr)); gap: 10px 14px; }
+  .field { display: flex; flex-direction: column; gap: 4px; }
+  label { font-weight: 600; color: #24292f; }
+  input, select, textarea {
+    padding: 8px 10px;
+    border: 1px solid #d0d7de;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #fff;
+  }
+  .actions { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn { border: 1px solid #1f2328; background: #1f2328; color: #fff; padding: 8px 12px; border-radius: 6px; font-weight: 600; cursor: pointer; }
+  .btn.secondary { background: #fff; color: #1f2328; }
+  .note { font-size: 12px; color: #57606a; margin-top: 4px; }
+
+  /* Document typography and layout */
+  .doc h1, .doc h2, .doc h3 { text-align: center; margin: 6px 0; font-weight: bold; }
+  .doc h1 { font-size: 16pt; text-decoration: underline; margin-top: 8px; }
+  .center { text-align: center; }
+  .right { text-align: right; }
+  .justify { text-align: justify; }
+  /* Make plain paragraphs justified by default for consistent layout */
+  .doc p { margin: 0 0 10px 0; text-align: justify; text-justify: inter-word; hyphens: auto; -webkit-hyphens: auto; -ms-hyphens: auto; overflow-wrap: break-word; }
+  .u { display: inline-block; min-width: 60px; border-bottom: 1px dotted #000; padding: 0 2px; }
+  .caps { text-transform: uppercase; }
+  .meta, .cover-box { border: 1px solid #d0d7de; padding: 8px; margin: 8px 0 12px 0; }
+  .head-table { width: 100%; border-collapse: collapse; margin: 6px 0 10px 0; }
+  .head-table td { vertical-align: top; padding: 2px 4px; }
+  .muted { color: #555; }
+  .page-break { page-break-before: always; }
+
+  .sign-section { margin-top: 12px; }
+  .sign-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .sign-box { border: 1px solid #bbb; padding: 10px; min-height: 140px; }
+  .photo-box { width: 120px; height: 140px; border: 1px solid #555; display: inline-block; vertical-align: top; margin-left: 8px; text-align: center; font-size: 11px; color: #555; line-height: 140px; }
+
+  /* Avoid awkward page breaks inside headings / short blocks where possible */
+  .doc h1, .doc h2, .doc h3, .cover-box, .sign-box, p {
+    orphans: 3;
+    widows: 3;
+    page-break-inside: avoid;
+  }
+
+  /* Print-specific adjustments */
+  @media print {
+    .controls { display: none; }
+    body { background: #fff; }
+    .doc { margin: 0; /* use page margins */ }
+    a[href^="http"]::after { content: ""; } /* remove URL annotations */
+  }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <h2>Fill this panel. Fields auto-populate across the lease.</h2>
+  <div class="grid">
+    <div class="field">
+      <label for="lease_day">Lease date – day</label>
+      <input id="lease_day" data-model="lease_day" placeholder="e.g., 12" />
+    </div>
+    <div class="field">
+      <label for="lease_month">Lease date – month</label>
+      <input id="lease_month" data-model="lease_month" placeholder="e.g., August" />
+    </div>
+    <div class="field">
+      <label for="lease_year">Lease date – year</label>
+      <input id="lease_year" data-model="lease_year" placeholder="e.g., 2025" />
+    </div>
+
+    <div class="field">
+      <label for="landlord_name">Landlord legal name</label>
+      <input id="landlord_name" data-model="landlord_name" placeholder="e.g., ABC Holdings Limited" />
+    </div>
+    <div class="field">
+      <label for="landlord_phys">Landlord registered office (physical)</label>
+      <input id="landlord_phys" data-model="landlord_phys" placeholder="e.g., ABC Towers, Waiyaki Way, Nairobi" />
+    </div>
+    <div class="field">
+      <label for="landlord_pobox">Landlord postal address</label>
+      <input id="landlord_pobox" data-model="landlord_pobox" placeholder="P.O. Box ..." />
+    </div>
+
+    <div class="field">
+      <label for="unit_type">Unit type</label>
+      <select id="unit_type" data-model="unit_type">
+        <option>Apartment</option>
+        <option>House</option>
+        <option>Villa</option>
+        <option>Townhouse</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="unit_no">Unit number</label>
+      <input id="unit_no" data-model="unit_no" placeholder="e.g., A-503" />
+    </div>
+    <div class="field">
+      <label for="scheme_name">Scheme/building name</label>
+      <input id="scheme_name" data-model="scheme_name" placeholder="e.g., Sunrise Apartments" />
+    </div>
+
+    <div class="field">
+      <label for="lr_title_no">L.R. / Title number</label>
+      <input id="lr_title_no" data-model="lr_title_no" placeholder="e.g., L.R. 12345/6" />
+    </div>
+    <div class="field">
+      <label for="situate_in">Situate in</label>
+      <input id="situate_in" data-model="situate_in" placeholder="e.g., Nairobi City County" />
+    </div>
+    <div class="field">
+      <label for="hectares">Measurement (hectares)</label>
+      <input id="hectares" data-model="hectares" placeholder="e.g., 0.05" />
+    </div>
+
+    <div class="field">
+      <label for="registry_at">Registry location</label>
+      <input id="registry_at" data-model="registry_at" placeholder="e.g., Nairobi" />
+    </div>
+    <div class="field">
+      <label for="ir_number">I.R. number</label>
+      <input id="ir_number" data-model="ir_number" placeholder="e.g., I.R. 123456" />
+    </div>
+    <div class="field">
+      <label for="doc_type">Title document type</label>
+      <select id="doc_type" data-model="doc_type">
+        <option>Lease</option>
+        <option>Title Deed</option>
+        <option>Grant</option>
+        <option>Certificate of Title</option>
+        <option>Certificate of Lease</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="term_years_words">Term (years in words)</label>
+      <input id="term_years_words" data-model="term_years_words" placeholder="e.g., Two" />
+    </div>
+    <div class="field">
+      <label for="term_years_num">Term (years, number)</label>
+      <input id="term_years_num" data-model="term_years_num" placeholder="e.g., 2" />
+    </div>
+    <div class="field">
+      <label for="comm_date">Commencement date</label>
+      <input id="comm_date" data-model="comm_date" placeholder="e.g., 01/09/2025" />
+    </div>
+    <div class="field">
+      <label for="end_date">End date</label>
+      <input id="end_date" data-model="end_date" placeholder="e.g., 31/08/2027" />
+    </div>
+
+    <div class="field">
+      <label for="rent_words">Monthly rent (words)</label>
+      <input id="rent_words" data-model="rent_words" placeholder="e.g., One Hundred Thousand" />
+    </div>
+    <div class="field">
+      <label for="rent_figures">Monthly rent (Kshs.)</label>
+      <input id="rent_figures" data-model="rent_figures" placeholder="e.g., 100,000" />
+    </div>
+    <div class="field">
+      <label for="payment_phrase">Payment timing phrase</label>
+      <input id="payment_phrase" data-model="payment_phrase" placeholder="e.g., quarterly in advance on the First day of each month" />
+    </div>
+
+    <div class="field">
+      <label for="renewal_notice_months">Renewal notice (months)</label>
+      <input id="renewal_notice_months" data-model="renewal_notice_months" placeholder="e.g., 2" />
+    </div>
+
+    <div class="field">
+      <label for="poa_registry">PoA registry (district)</label>
+      <input id="poa_registry" data-model="poa_registry" placeholder="e.g., Nairobi" />
+    </div>
+    <div class="field">
+      <label for="poa_number">PoA number</label>
+      <input id="poa_number" data-model="poa_number" placeholder="e.g., 123456" />
+    </div>
+    <div class="field">
+      <label for="poa_date">PoA registration date</label>
+      <input id="poa_date" data-model="poa_date" placeholder="e.g., 15/08/2022" />
+    </div>
+
+    <div class="field">
+      <label for="dir1_name">Director 1 name</label>
+      <input id="dir1_name" data-model="dir1_name" placeholder="e.g., Jane Doe" />
+    </div>
+    <div class="field">
+      <label for="dir2_name">Director 2/Secretary name</label>
+      <input id="dir2_name" data-model="dir2_name" placeholder="e.g., John Smith" />
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn" id="exportDoc">Export to Word (.doc)</button>
+    <button class="btn secondary" id="toggleGuides">Toggle guides</button>
+    <span class="note">Open the .doc in Word to save as .docx or PDF.</span>
+  </div>
+</div>
+
+<div id="docRoot" class="doc">
+
+  <div class="cover-box">
+    <table class="head-table">
+      <tr>
+        <td><strong>Dated:</strong></td>
+        <td>20<span class="bind" data-bind="lease_year"></span></td>
+      </tr>
+      <tr>
+        <td><strong>Between:</strong></td>
+        <td><span class="caps bind" data-bind="landlord_name"></span> (Landlord)</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td class="caps">- and -</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><span class="caps">SAFARICOM PLC</span> (Tenant)</td>
+      </tr>
+    </table>
+
+    <h1>LEASE</h1>
+
+    <p class="center">In respect of <strong>House/Apartment Number</strong> <span class="u bind" data-bind="unit_no"></span></p>
+    <p class="center"><span class="bind" data-bind="scheme_name"></span> Apartments</p>
+    <p class="center">Situated on L.R. No./ Title No. <span class="u bind" data-bind="lr_title_no"></span></p>
+  </div>
+
+  <h2>Lease</h2>
+
+  <p class="justify">THIS LEASE is made on the <span class="u bind" data-bind="lease_day"></span> day of <span class="u bind" data-bind="lease_month"></span>, 20<span class="u bind" data-bind="lease_year"></span>.</p>
+
+  <p class="justify">BETWEEN: <span class="bind" data-bind="landlord_name"></span> a private company incorporated in the Republic of Kenya and having it registered office situate at <span class="u bind" data-bind="landlord_phys"></span> and of Post Office Box Number <span class="u bind" data-bind="landlord_pobox"></span> (the Landlord); and SAFARICOM PLC a limited liability company incorporated in Kenya and having its registered office situate at Safaricom House, Waiyaki Way and of Post Office Box Number 66827-00800 Nairobi (the Tenant).</p>
+
+  <p class="justify"><strong>WHEREAS:</strong><br/>
+  The Landlord is registered as proprietor of all that <span class="bind" data-bind="unit_type"></span> known as <span class="bind" data-bind="unit_type"></span> Number <span class="bind" data-bind="unit_no"></span> erected on (or all that piece or parcel of land known as Title No./L.R. No. <span class="bind" data-bind="lr_title_no"></span> situate in <span class="bind" data-bind="situate_in"></span>, containing by measurement <span class="bind" data-bind="hectares"></span> hectares or thereabouts) and being the <span class="bind" data-bind="unit_type"></span> comprised in a <span class="bind" data-bind="doc_type"></span> (or land comprised in a <span class="bind" data-bind="doc_type"></span>) registered in the Lands Title Registry at <span class="bind" data-bind="registry_at"></span> as Number I.R. <span class="bind" data-bind="ir_number"></span> (the Land or (Premises)[as applicable]).</p>
+
+  <p class="justify">There is erected on the Land the building(s) consisting residential homes more commonly known as <span class="bind" data-bind="scheme_name"></span> Apartments (if applicable).</p>
+
+  <p class="justify">The Landlord has agreed to grant to the Tenant a lease (the Lease) of ALL THAT property known as <span class="bind" data-bind="unit_type"></span> Number <span class="bind" data-bind="unit_no"></span>, (the Premises as more particularly delineated on the attached sketch plan), SUBJECT to the following terms and conditions.</p>
+
+  <p class="justify"><strong>NOW IT IS HEREBY AGREED AS FOLLOWS:</strong></p>
+
+  <p class="justify">The Landlord in consideration of the Rent and of covenants by the Tenant hereby leases the Premises to the Tenant together with the Landlord’s fixtures and fittings and furniture thereon (if any) for <span class="u bind" data-bind="term_years_words"></span> (<span class="u bind" data-bind="term_years_num"></span>) Year(s) (the “Term”) from <span class="u bind" data-bind="comm_date"></span> (the “Commencement Date”) to <span class="u bind" data-bind="end_date"></span> (both dates inclusive).</p>
+
+  <p class="justify">The Tenant shall pay the monthly rent of Kenya shillings <span class="u bind" data-bind="rent_words"></span> only (Kshs. <span class="u bind" data-bind="rent_figures"></span>) (the “Rent”) <span class="bind" data-bind="payment_phrase"></span> without exercising any right of set-off or counterclaim and without any deductions whatsoever by EFT or such other method as may be mutually agreed in writing by the parties to the credit of the Landlord’s account.</p>
+
+  <p class="justify">The Rent is exclusive of Value Added Tax or similar tax charged or chargeable thereon (together “VAT”).</p>
+
+  <p class="justify">If applicable, VAT shall be for the account of the Tenant and is payable to the Landlord together with the Rent PROVIDED THAT the Landlord shall provide the necessary documentation including but not limited to an ETR receipt.</p>
+
+  <p class="justify">The Rent shall be inclusive of 10% withholding tax on rental income calculated on gross rent payable to the Landlord.</p>
+
+  <p class="justify">The Tenant shall pay a refundable security deposit (the “Deposit”), equivalent to one (1) month’s Rent, for the due performance of its obligations and observance of the terms of this Lease PROVIDED THAT the Landlord shall not apply the Deposit towards the satisfaction and discharge of the covenants on the part of the Tenant without the Tenant’s approval and consent.</p>
+
+  <p class="justify">The Tenant hereby further covenants with the Landlord that during the Term the Tenant:</p>
+
+  <p class="justify">shall pay the Rent in the manner provided in this Lease;</p>
+  <p class="justify">shall pay to the relevant suppliers all charges in respect of water, conservancy and electricity supplied and consumed on the Premises;</p>
+  <p class="justify">shall pay service charges (if any) to the management;</p>
+  <p class="justify">will keep the interior of the Premises including all floors walls ceilings doors and windows and the Landlord’s fixtures and fittings, furniture and all internal drains down pipes sanitary apparatus and electric conduits in the same good and tenantable repair and condition as they were at the time when the Premises were handed over to the Tenant fair wear and tear only excepted;</p>
+  <p class="justify">will allow the Landlord or the Landlord’s servants and agents (the “Landlord’s Invitees”) to enter the Premises in the daytime for the purpose of examining the Premises subject to seven (7) days written notice;</p>
+  <p class="justify">will not erect any fixtures in the Premises nor alter nor make any alterations to the exterior appearance of the Premises or to the electrical installation of the Premises without the consent in writing of the Landlord.</p>
+  <p class="justify">will not make any alterations whatsoever structural or otherwise in or to the Premises or cut maim or remove any of the walls beam or columns without the written consent of the Landlord. The walls beams and columns shall be restored by the Tenant to the condition in which they were at the commencement of the Term;</p>
+  <p class="justify">will strictly use the Premises for the purpose of a single private residence of the Tenant or its immediate family occasional house guests and usual domestic staff.</p>
+  <p class="justify">will not take in lodgers or paying guests and will not carry on at the Premises any trade, profession, or business or any illegal or immoral purposes.</p>
+  <p class="justify">it is hereby agreed and declared that upon any breach by the Tenant of the terms of sub-clause 7.8 and 7.9 the Landlord may thereupon subject to the provisions of the Land Act, 2012 re-enter the Premises and if the Landlord shall do so the Term shall determine absolutely;</p>
+  <p class="justify">will indemnify the Landlord on demand on full and unqualified basis against any actions claims and demands arising out or pursuant to any leakage or overflow of water or any noxious substance from the Premises caused by the negligence of the Tenant or the Tenant’s employees servants licensees or visitors (the “Tenant’s Invitees”);</p>
+  <p class="justify">will always ensure that the Tenant’s use of electric current on the Premises shall not exceed the capacity of the existing feeders to the Premises or of the risers or wiring installations in the Premises;</p>
+  <p class="justify">will repair any damage to the Premises or to any Landlord’s fixtures, fittings or furnishings:
+  caused by the Tenant and the Tenant’s Invitees or others moving any furniture goods or other articles into or out of the Premises; or
+  caused by the Tenant and the Tenant’s Invitees installing or removing any fittings; or
+  resulting from fire explosion air conditioning or electric short circuits leakage of water or steam or by bursting or leaking of pipes or plumbing works or from any other cause of any other kind or nature whatsoever as a result of the omission improper or negligent conduct of the Tenant the Tenant’s Invitees;</p>
+  <p class="justify">will permit the Landlord and the Landlord’s agents and all other persons authorized by the Landlord with or without workmen and others and with all necessary tools appliances and apparatus to enter upon the Premises subject to seven (7) days written notice and during the daytime (except in case of emergency like fire) to:
+  repair defective lavatory fittings water pipes or electric services; or
+  examine the condition of lavatory fittings water pipes or electric services; or
+  doing such repairs alterations improvements renewals or other things as may be required to:
+  the Premises pursuant to the covenants by the Landlord; or
+  any adjoining or neighbouring premises belonging to the Landlord; or
+  the electricity or water supply or drainage in or under any part of the Premises.
+  the Landlord shall use all reasonable efforts to cause as little inconvenience as is possible provided that the Rent shall not be in any way abated while such repairs alterations improvements and renewals or other things as aforesaid are being done.</p>
+  <p class="justify">will before the expiration of a period of thirty (30) days following the date of a notice in that behalf given by the Landlord to the Tenant carry out any repairs for which the Tenant is liable under this Lease and carry out the same in accordance with such notice to the satisfaction of the Landlord:
+  if the Tenant shall fail to carry out such work within such time as aforesaid then the Landlord may cause the same to be done and recover reasonable costs from the Tenant (which cost shall be payable forthwith on demand without prejudice to the Landlord’s right to re-entry);
+  in the event of an emergency the Tenant not being personally present to open and permit entry by the Landlord to the Premises the Landlord or the Landlord’s agents may enter the Premises by means of a master key or may forcibly enter the Premises without rendering the Landlord or such agents liable except for damage or loss caused to the Tenants property as a result of the negligence of the Landlord or such agents and without affecting the terms of this Lease;</p>
+  <p class="justify">will use the Premises in a lawful and orderly manner and nothing shall be done omitted to be done or permitted contrary to any law or regulations relating to use of the Premises.</p>
+  <p class="justify">will not do or permit or suffer to be done anything whereby any law or regulations promulgated by the national or County government applicable to the Premises may be contravened. If the Landlord is made liable for any breach attributable to any act default or omission of the Tenant or the Tenant’s Invitees, the Tenant shall forthwith on demand indemnify the Landlord against all penalty damage and costs incurred or paid or suffered by the Landlord in consequence of such breach;</p>
+  <p class="justify">will not do or suffer to be done anything whereby any insurance of the Premises against loss or damage by fire and any other risks from time to time insured by the Landlord may become void or voidable or whereby the rate of premium for any such insurance may be increased provided always:
+  the Tenant will repay to the Landlord all sums by way of increased premium and all expenses incurred by the Landlord in or about any renewal of such policy rendered necessary by a breach of the provisions of this sub-clause 7.19;
+  the payments in sub-clause 7.19.1 shall be added to the Rent and recoverable as rent; and
+  the Tenant shall in the event of any insurance money being withheld or being partially or wholly irrecoverable by reason of any breach or non-observance of this covenant indemnify the Landlord on a full and unqualified indemnity basis in respect of the cost of re-building or, re-instating the Premises or any other loss damage cost liability or expense incurred or suffered by the Landlord as a result of any breach or non-observance of this covenant.</p>
+  <p class="justify">will not do or permit or suffer to be done upon or within the Premises anything which may be or become a nuisance or annoyance to or in any way interfere with the quiet user of any adjoining or neighbouring premises;</p>
+  <p class="justify">will perform and observe all covenants conditions restrictions stipulations and provisions affecting the Premises (the “Conditions”) under which the Premises are held.</p>
+  <p class="justify">will not at any time do or omit or suffer anything whereby the title to the Land or the Premises may be voided or forfeited and will keep the Landlord indemnified (on a full and unqualified indemnity basis) from and against all actions proceeding costs damages claim demands and liabilities for or in respect of any breach of the Conditions which may be committed during the Term;</p>
+  <p class="justify">will within seven (7) days of service give full particulars to the Landlord of any notice order or proposal affecting the Premises given made or issued under or by virtue of any law or any rule regulation order or direction or under the by-law of any competent authority in Kenya;</p>
+  <p class="justify">will not transfer sublet or part with possession or grant a license in respect of the Premises. It is hereby expressly agreed and declared by and between the Parties that upon any breach by the Tenant of this covenant it shall be lawful for the Landlord subject to the provisions of the Land Act, 2012 to re-enter the Premises and thereupon the Term shall determine absolutely;</p>
+  <p class="justify">will not permit any open fire to be burned within the Premises or keep or maintain any inflammable toxic poisonous dangerous explosive or noxious material or substance in the Premises;</p>
+  <p class="justify">save in conformity with the Landlord’s architects’ requirements as to size type colour and placing and with the written consent of the Landlord, will not place to or upon the exterior of the Premises or the windows or any entrance doors to the Premises:
+  any aerial curtain screen; or
+  sun-blind neon sign signboard facia placard bill notice; or
+  other notification whatsoever;
+  on the expiration or sooner determination of the Term the Tenant will remove any aerial curtains screen sun-blind neon sign signboard facia placard bill notice or other notification as aforesaid and repair any damage caused thereby to the satisfaction of the Landlord;</p>
+  <p class="justify">will not without the prior consent in writing of the Landlord permit to be brought into the Premises any furniture machinery or other equipment or articles likely to overload the floors of the Premises beyond the margin of safety from time to time prescribed by the Landlord’s architect (to be ascertained by the Tenant from such architect). The Tenant will indemnify the Landlord on a full and unqualified basis on demand against all loss and damage sustained by the Landlord arising out of a breach of this sub-clause 7.27.;</p>
+  <p class="justify">will not install in the Premises nor permit to be installed any machinery nor alter the position of any such machinery without first obtaining the consent in writing of the Landlord’s architect;</p>
+  <p class="justify">will not drive in any nails screws bolts or wedges in the floors walls or ceiling of the Premises without obtaining the written consent of the Landlord;</p>
+  <p class="justify">will pay forthwith on demand all costs charges and expenses including the costs of the Landlord’s advocates surveyors or other professional or technical advisers incurred by the Landlord in requiring the Tenant to remedy a breach of any of the covenants (such advocates’ cost to include every sum which would be allowed to the said advocates in a taxation between advocate and own client) or in connection with the preparation and service of a schedule of dilapidation at the determination of the Term;</p>
+  <p class="justify">will not create or permit to arise or submit any charge, mortgage or other security of interest whatsoever over or in respect of the Premises;</p>
+  <p class="justify">will not hold or permit to be held any sale by auction on the Premises;</p>
+  <p class="justify">will give immediate notice to the Landlord if the Premises are or become infested with vermin, white ants, bees and other destructive insects and notify the presence of any dry or wet or any defects which may develop in the Premises and the Landlord shall take the necessary action to rectify the same;</p>
+  <p class="justify">will give immediate notice to the Landlord in case of fire or accidents in the Premises and of all damage and defects to any fixtures and fittings; and</p>
+  <p class="justify">at the expiration or sooner determination of the Term the Tenant will:
+  yield up the Premises to the Landlord together with the Landlord’s fixtures and fittings in good and tenantable repair and condition in accordance with the Tenant’s covenants; and
+  return all locks keys and fastenings complete.
+  The Tenant’s obligation to perform and observe such covenants under clause 7.35 shall survive the expiration or sooner determination of the Term.</p>
+
+  <p class="justify">If the last day of the Term shall fall on a Sunday or a public holiday then the Term shall expire on the business day immediately preceding such day.</p>
+
+  <p class="justify">The Landlord’s right to vacant possession upon the expiry or sooner determination of this Lease shall be deemed to be the essence of the contract between the Parties hereto.</p>
+
+  <p class="justify">The Landlord hereby agrees with the Tenant that during the continuance of the Term the Landlord:
+  will keep the roof main walls and main timbers gutters downpipes and the exterior of the buildings forming part of the Premises and the exterior water and sanitary apparatus and the electrical wiring and electrical apparatus forming part of the electrical circuits of the Premises in good and tenantable repair and condition.
+  will replace when necessary all water tanks whether internal or external.
+  will carry out repairs to the interior of the Premises when necessary by reason of any breach of this covenant provided that if the Landlord fails to carry out the repairs within a reasonable time after notice, the Tenant may repair the same and deduct the reasonably and properly incurred expenses from the rent.
+  will insure and keep insured the Premises and improvements thereon from loss or damage by fire storm and such other risks as the Landlord may deem expedient with an insurance company or underwriters of repute to their full insurable value and to pay all premiums necessary for that purpose.
+  to apply all moneys received by virtue of such insurance in making good the loss or damage in respect of which the same shall have been received but without prejudice to liability of the Tenant to pay or contribute towards the cost of such making good in the event of the insurance money being wholly or partially irrecoverable by reason of an act or default of the Tenant or the servants licensees or invitees of the Tenant.
+  will allow the Tenant paying the Rent and performing and observing the several covenants on the Tenant’s part to peacefully hold and enjoy the Premises during the Term without any interruption from or by the Landlord or any person rightfully claiming from or under him; and
+  will procure the following services:
+  twenty four (24) hour security at the main gate and peripheral electric fence in good working order; and
+  garbage collection cleaning and maintenance of all the common areas of the land
+  Provided that the Landlord accepts no liability whatsoever in respect of the provision of the aforesaid services but will use reasonable endeavors to engage reputable providers of the aforesaid services and to make timely payment of the same.</p>
+
+  <p class="justify"><strong>Provided always and it is hereby agreed and declared as follows that:</strong></p>
+
+  <p class="justify">this Lease shall not terminate, and the Tenant shall be entitled to a total or partial abatement of rent (such proportion subject to the area of the Premises damaged by fire) if:
+  the Premises during the Term be damaged by fire (unless such fire is caused due to negligence default or omission on the part of the Tenant or the Tenant’s Invitees) to render the Premises unfit for occupation or use in whole or part by the Tenant;
+  the insurance policy in respect of the Premises has not become vitiated or voided by any acts or omissions of the Tenant or the Tenant’s Invitees;
+  the Landlord within a period of three (3) months after the occurrence of the said fire rebuilds or reinstates the Premises.
+  the Landlord shall be obliged to proceed expeditiously with the work of such rebuilding provided that:
+  if the Landlord elects within the said period of three (3) months not to rebuild or reinstate the Premises; or
+  fails to make any election
+  then this Lease shall automatically determine and be at an end upon the expiry of the said period of three (3) months;</p>
+
+  <p class="justify">if:
+  the Tenant fails to pay rent within thirty (30) days from the due date of payment of the same (whether legally demanded or not) or fails to pay or discharge any other obligation and liability payable or to be discharged by the Tenant; or
+  the Tenant breaches or fails to comply perform or observe any of the covenants conditions and undertaking and to be compiled with performed and observed by the Tenant; or
+  an encumbrance takes possession or exercises or attempts to exercise any power of sale or a trustee in bankruptcy or administrator in insolvency is appointed of the whole or any part of the property assets or revenues of the Tenant; or
+  any judgment or order is made against the Tenant and is not complied with within seven (7) days or if any execution distress sequestration or other process is levied and enforced upon or sued out against any part of the property assets or revenues of the Tenant; or
+  the Tenant stops payment or agrees to declare a moratorium or becomes bankrupt or insolvent or is deemed to be unable to pay their debts as and when they fall due; or
+  a notice is issued convening a meeting of the creditors of the Tenant; or
+  the Tenant proposes or enters into any composition or arrangement with their creditors generally or any class of their creditor; or
+  any material part of the property assets or revenues of the Tenant is sold or disposed of or threatened to be sold or disposed of whether in a single transaction or several transactions; or
+  the Tenant is nationalized compulsorily acquired seized or appropriated;
+  Then and in any of the said cases, the Landlord shall issue a notice in writing to the Tenant (the Notice):
+  specifying the nature of the breach by the Tenant (the Breach); and
+  (in any case of a Breach capable of remedy) requiring the Tenant to remedy the Breach within thirty (30) days from the date of the Notice; and
+  (in any other case other than non-payment of rent) requiring the Tenant to remedy the Breach by way of a monetary compensation any specifying the amount to be paid by the Tenant.
+  If upon the issuance of the Notice the Tenant shall not have remedied the Breach in the manner stipulated in the Notice then in any of the said cases it shall be lawful for the Landlord (without prejudice to any other rights or remedies of the Landlord) at any time after, to:
+  re-enter the Premises and to have again, repossess and enjoy the Premises in its former estate and the Term shall absolutely determine anything contained to the contrary notwithstanding.
+  If the Tenant shall make default in paying any sum required to be paid pursuant hereto (including without limitation, the Rent such sum shall be recoverable (whether formally demanded or not) as if rent in arrears.
+  The acceptance at any time by the Landlord of any rent hereby reserved shall not be construed to take effect as a waiver by the Landlord of any then subsisting or antecedent breach by the Tenant of any of the covenants and undertakings contained or implied in this Agreement and on the part of the Tenant to be performed and observed or any right or remedy of the Landlord arising by virtue or in respect of any such breach;</p>
+
+  <p class="justify">Either party may terminate this Lease upon giving one (1) month’s written notice of intention to terminate or making one (1) month’s rent payment in lieu of such determination and the Landlord will refund to the Tenant the deposit within fourteen (14) days of such termination and such proportion of the rent paid in advance that shall not have been utilized provided that the Tenant shall have performed all its obligations under this Lease.</p>
+
+  <p class="justify"><strong>It is hereby further agreed and declared as follows:</strong></p>
+
+  <p class="justify">Subject to the Tenant performing its obligations and observing the terms contained or implied in this Agreement, this Lease shall automatically renew for further consecutive terms, similar to the Term (the “renewed Term/(s)”), unless the Tenant gives to the Landlord <span class="u bind" data-bind="renewal_notice_months"></span> months’ notice to terminate:
+  The rent payable in each renewed Term shall be the rent payable during the last year of the expired term subject to escalation at the rate of 5% per annum (the “new Rent”) with effect from the first year of the renewed Term.
+  If the parties engage in negotiations of terms of renewal the parties agree that such negotiations shall be held in good faith, AND:
+  If negotiations are still ongoing after the expiry of the Term the Tenant will pay the new Rent in accordance with this clause 10 subject also to the same terms in this Lease;
+  If after completion of the negotiations the rent agreed between the parties is higher than the new Rent the Tenant will pay the difference between the additional rent and the new Rent during the next payment of rent;
+  Where the Parties agree not to renew this Lease for a further term, the Tenant will vacate the Premises within thirty (30) days from the date of any such agreement not to renew.</p>
+
+  <p class="justify">any consent required from the Landlord shall not be unreasonably withheld conditioned or delayed.</p>
+  <p class="justify">the obligations set out in clause 3 are binding on the Tenant and the Tenant’s authorized occupants and the Tenant shall procure that the Tenant’s authorized occupants abide by them, and the breach of any such obligation by the Tenant’s authorized occupants shall constitute an automatic breach by the Tenant.</p>
+  <p class="justify">the Landlord shall be liable for loss damage or injury to the Tenant or the Tenant’s invitees or the property of the Tenant or of any such persons caused by:
+  any defects in the Premises or in the electric wiring or the insulation or in the pipes or steam pipes or from broken stairs or from the bursting leaking or the running over of any tank tube washstand cistern closet wastepipe drain or any other pipe or tank in upon or about the Premises or from the escape of steam or hot water from any boiler or radiator;
+  any defective or negligent works construction or maintenance of the lighting or other parts of the structure of the buildings unless such works construction or maintenance have been undertaken by persons unqualified for the purpose;
+  any lack or shortage of electricity water or drainage;
+  any burglary or theft at the Premises; or
+  any fire explosion falling plaster steam rain or leaks from any part of the buildings or from the pipes appliances or plumbing works or from the roofs or from any other place or by dampness howsoever caused any occurring;</p>
+  <p class="justify">the Tenant shall be entitled to use in common with other tenants and occupiers of the Land, such common facilities and services as may be provided by the Landlord on the Land from time to time including a swimming pool, provision for parking areas and gardens (if any) in accordance with such rules and regulations as may be promulgated by the Landlord from time to time;</p>
+  <p class="justify">Notwithstanding anything contained in this Lease, the Parties shall not be liable to each other nor shall either party have any claim against the other party in respect of any interruption in any of the services mentioned by reason of damage thereto or destruction by fire water Act of God or by matters beyond the parties’ control or by reason of mechanical or other defect or breakdown or other inclement conditions or unavoidable shortage of fuel electricity materials water or labor;</p>
+  <p class="justify">each of the covenants in this Lease contained shall remain in full force both at law and equity notwithstanding that the Parties shall have waived a breach of any such covenant;</p>
+  <p class="justify">no provision in this Lease shall be waived or varied by either Party hereto except by agreement in writing;</p>
+
+  <p class="justify"><strong>Data Protection</strong><br/>
+  “Personal Data” means the Landlord’s personal information including, but not limited to, copies of national ID, Passport, KRA PIN, photographs, bank account details, telephone number, physical, postal and email address as collected by the Tenant.
+  The parties will during the Term comply with the Data Protection Act and Regulations.
+  Personal Data will be collected by the Tenant for the following purposes and any other purpose relevant to this Lease:
+  Preparation, execution, stamping and registration of this Lease;
+  Maintenance of a contact list for correspondence with the Landlord;
+  For payment of rent, accounting and record keeping; and
+  Compliance with the law.
+  By execution of this Lease, the Landlord gives consent to the Tenant to lawfully share the Personal Data with its agents, service providers and connected persons to achieve the objectives in clause 10.11.
+  The Tenant has established technical and operational measures to ensure integrity and confidentiality of the Landlord’s data by way of controls on information classification, access control, cryptography, confidentiality agreements with agents and external service providers and physical and environmental monitoring and compliance.
+  The Landlord will have the following rights for the duration the Personal Data is collected and maintained by the Tenant:
+  To be informed of the use of the Personal Data;
+  To access the Personal Data;
+  To object to the processing of all or part of the Personal Data where such processing is done in violation of the terms of this Lease;
+  To correct false or misleading Personal Data; and
+  To the deletion of false or misleading Personal Data.
+  By execution of this Lease, the Landlord confirms that it/he/she has accessed the Tenant’s Data Privacy Statement on https://www.safaricom.co.ke/dataprivacystatement/, read and understood the contents.</p>
+
+  <p class="justify"><strong>Interpretation</strong><br/>
+  In this Lease, unless the context otherwise requires, reference to:
+  Landlord and Tenant shall where the context so admits include their respective personal representatives’ heirs’ successors in title and permitted assigns (as applicable);
+  words denoting the singular number only shall include the plural number also and vice versa and words importing the masculine gender includes the feminine gender and neuter and vice versa;
+  sub-clauses and clauses shall be construed as references to sub-clauses and clauses of this Lease;
+  the expression person shall include any legal or natural person partnership trust company joint venture government or any agency local authority department or other body (whether corporate or unincorporated);
+  any statute or any provision of any statute shall be deemed to refer to any statutory modification or re-enactment and to any statutory instrument order or regulation made or under any such re-enactment;
+  the word tax shall be construed so as to include any tax, levy, impost, assessment, duty or other charge of a similar nature (including, without limitation, value added tax, stamp duty and any penalty or interest payable in connection with any failure to pay or any delaying paying any of the same) and “taxation” shall be construed accordingly and the expression “competent taxing authority” means, in respect of any state or administration division, any governmental or local authority, monetary agency or central bank having power to collect or levy taxes;
+  Kenya Shillings or Kshs. means the lawful currency for the time being of the Republic of Kenya;
+  costs, charges, expenses or remuneration shall be deemed to include, in addition, references to any value added tax similar tax charged or chargeable;
+  indemnifying any person against any circumstance includes indemnifying and keeping him harmless from all actions, claims and proceedings from time to time made against that person and all loss or damage and all payments costs and expenses made or incurred by that person as a consequence of or which would not have arisen but for that circumstance;
+  the expression month means a calendar month;
+  competent authority includes the National Assembly, the Government of Kenya, any county authority, parastatal and other organization with a power to make laws by-laws directives orders ruled and regulations (as the case may be) in respect of the Premises;
+  any right of the Landlord to have access to the Premises shall be construed as extending to any charge of the Premises and to all persons authorized by the Landlord and any charge (including agents professional advisers contractors workmen and others nominated by the Landlord and/or any charge);
+  any provisions in this Lease referring to the consent or approval of the Landlord shall be construed as also requiring the consent or approval of any charge of the Premises but nothing in this Lease shall be construed as implying that any obligation is imposed upon any mortgage or charge not unreasonably to refuse any such consent or approval;
+  consent of the Landlord or word to similar effect mean a consent in writing signed by the Landlord and “approved” means authorized in writing by the Landlord; and
+  Party or Parties means the parties to this Lease or any or all of them.</p>
+
+  <p class="justify">All notices required under this Lease shall be in writing and shall in the case of a notice to the Tenant be deemed to have been served if sent by registered post addressed to the Tenant at the Tenant’s address above given or if addressed to the Tenant and delivered to the Premises and in the case of notices to the Landlord be sufficiently served if addressed and delivered to the Landlord at the Landlord’s usual place of business or posted to the Landlord by registered post at the Landlord’s address above given and any notice so posted shall be deemed to have been served seven (7) days following the date of posting provided that proof is given that the same was dispatched by registered post.</p>
+
+  <p class="justify">Sections 65(1) (a), (f) and (g) of the Land Act, 2012 (as amended and applicable in the Republic of Kenya pursuant to the Laws of the Republic of Kenya) shall not apply to this Lease.</p>
+
+  <p class="justify">The Parties hereby agree that this Lease shall be governed and construed in accordance with the Laws of the Republic of Kenya and the Parties hereby agree to submit to the jurisdiction of Kenyan Courts.</p>
+
+  <p class="justify">Each of the Parties hereby agrees and confirms for the purposes of the Law of Contract Act (Chapter 23, Laws of Kenya) and the Land Act, 2012 that it has executed this Lease with the intention to bind itself to its contents.</p>
+
+  <p class="justify">The Tenant hereby accepts this Lease subject to the conditions restrictions and stipulations above.</p>
+
+  <div class="page-break"></div>
+
+  <h2>Execution</h2>
+  <p class="justify">IN WITNESS OF WHICH the Parties hereto have caused this Lease to be executed as of this <span class="u bind" data-bind="lease_day"></span> day of <span class="u bind" data-bind="lease_month"></span>, 20<span class="u bind" data-bind="lease_year"></span>.</p>
+
+  <div class="sign-section">
+    <p><strong>The Landlord:</strong></p>
+    <div class="sign-grid">
+      <div class="sign-box">
+        <p>SEALED with the Common Seal of</p>
+        <p><span class="u bind" data-bind="landlord_name"></span></p>
+        <p>In the presence of:</p>
+        <p>-------------------------<br/>Director<br/>Name: <span class="u bind" data-bind="dir1_name"></span></p>
+        <p>-------------------------<br/>Director/Secretary<br/>Name: <span class="u bind" data-bind="dir2_name"></span></p>
+        <p>Before me:</p>
+        <p>ADVOCATE</p>
+        <p><em>I CERTIFY THAT the above named <span class="u bind" data-bind="dir1_name"></span> and <span class="u bind" data-bind="dir2_name"></span> being the director(s) and/company secretary of <span class="u bind" data-bind="landlord_name"></span> appeared before me on the <span class="u bind" data-bind="lease_day"></span> day of <span class="u bind" data-bind="lease_month"></span> 20<span class="u bind" data-bind="lease_year"></span> acknowledged the above signatures or mark to be theirs that they had freely and voluntarily executed this instrument and understood its contents.</em></p>
+        <p>Signature and Designation of Person Certifying: _________________________</p>
+      </div>
+
+      <div class="sign-box">
+        <p><strong>The Tenant:</strong></p>
+        <p>SIGNED by the duly authorised Attorney of SAFARICOM PLC under and by virtue of a Power of Attorney registered at the District Lands Registry at <span class="u bind" data-bind="poa_registry"></span> as Number <span class="u bind" data-bind="poa_number"></span> on <span class="u bind" data-bind="poa_date"></span></p>
+        <p>in the presence of:</p>
+        <p>ADVOCATE</p>
+        <p><em>I CERTIFY that the above named appeared before me and being known to me and having understood the contents of this instrument freely and voluntarily executed it.</em></p>
+        <p>Signature of Witness: ____________________________</p>
+        <p>Name: ____________________________</p>
+        <p>Address: ____________________________</p>
+        <p>Occupation: ADVOCATE</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="right muted">C3 - Safaricom Confidential External</p>
+</div>
+
+<script>
+  (function () {
+    const models = {};
+    const inputs = document.querySelectorAll('[data-model]');
+    const binds = document.querySelectorAll('.bind[data-bind]');
+
+    function setModel(key, val) {
+      models[key] = val;
+      document.querySelectorAll('.bind[data-bind="' + key + '"]').forEach(function (el) {
+        el.textContent = val || '';
+      });
+    }
+
+    inputs.forEach(function (el) {
+      const key = el.getAttribute('data-model');
+      setModel(key, el.value);
+      el.addEventListener('input', function () { setModel(key, el.value); });
+      el.addEventListener('change', function () { setModel(key, el.value); });
+    });
+
+    // Sensible defaults
+    if (!models.payment_phrase) setModel('payment_phrase', 'quarterly in advance on the First day of each month');
+
+    // Toggle guides (underlines visibility)
+    const toggleBtn = document.getElementById('toggleGuides');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', function () {
+        document.body.classList.toggle('show-guides');
+        toggleBtn.textContent = document.body.classList.contains('show-guides') ? 'Hide guides' : 'Toggle guides';
+      });
+    }
+
+    // Export to Word functionality
+    document.getElementById('exportDoc').addEventListener('click', function () {
+      const clone = document.getElementById('docRoot').cloneNode(true);
+      clone.querySelectorAll('.controls, .actions, .note').forEach(el => el.remove());
+      const html = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Document</title></head><body>' + clone.innerHTML + '</body></html>';
+      const blob = new Blob([html], { type: 'application/msword' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'lease_agreement.doc';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 100);
+    });
+  })();
+</script>
+</body>
+</html>

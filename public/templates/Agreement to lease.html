@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Agreement to Lease – Fillable Template</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --text: #111;
+      --muted: #666;
+      --accent: #004b8d;
+      --fill-border: #777;
+      --fill-bg: #fff8cc;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      color: var(--text);
+      font: 12pt "Times New Roman", Times, serif;
+      line-height: 1.25;
+      background: #fff;
+    }
+    main {
+      max-width: 800px;
+      margin: 24px auto 96px auto;
+      padding: 0 24px;
+    }
+    header, section {
+      margin-bottom: 18px;
+    }
+    h1, h2, h3, h4 {
+      margin: 0 0 8px 0;
+      font-weight: 700;
+      color: var(--text);
+    }
+    h1 { font-size: 18pt; text-align: center; text-transform: uppercase; letter-spacing: .5px; }
+    h2 { font-size: 14.5pt; margin-top: 18px; }
+    h3 { font-size: 13pt; margin-top: 14px; }
+    h4 { font-size: 12.5pt; margin-top: 10px; }
+    p { margin: 6px 0; text-align: justify; }
+    .center { text-align: center; }
+    .small { font-size: 10pt; color: var(--muted); }
+    .muted { color: var(--muted); }
+    .caps { text-transform: uppercase; letter-spacing: .3px; }
+
+    /* Numbered clauses */
+    ol.clauses { counter-reset: item; list-style: none; margin: 0; padding: 0; }
+    ol.clauses > li {
+      counter-increment: item;
+      margin: 6px 0;
+    }
+    ol.clauses > li > .num::before {
+      content: counter(item) ". ";
+      font-weight: bold;
+    }
+    .indent { margin-left: 18px; }
+
+    /* Fillable fields */
+    .fill {
+      display: inline-block;
+      min-width: 2.2em;
+      padding: 1px 3px;
+      border-bottom: 1px dotted var(--fill-border);
+      background: var(--fill-bg);
+      outline: none;
+      cursor: text;
+    }
+    .fill[contenteditable="true"]:empty::before { content: attr(data-ph); color: #999; }
+    .block-fill {
+      display: block;
+      min-height: 1.2em;
+      padding: 2px 4px;
+      border-bottom: 1px dotted var(--fill-border);
+      background: var(--fill-bg);
+      margin: 2px 0 8px 0;
+    }
+    .spacer { display: inline-block; min-width: .75em; }
+    .u { border-bottom: 1px solid currentColor; }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; margin: 8px 0 12px 0; }
+    th, td { border: 1px solid #333; padding: 6px 8px; vertical-align: top; }
+    th { background: #f4f4f4; text-align: left; }
+    .no-border { border: none; }
+
+    /* Signatures */
+    .sig-grid { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    .sig-cell { width: 50%; padding: 12px; border: 1px solid #333; vertical-align: top; }
+    .line { display: block; border-bottom: 1px solid #000; height: 1px; margin: 18px 0 6px; }
+    .label { font-size: 10pt; color: var(--muted); }
+
+    /* Instruction panel (screen-only) */
+    .instructions {
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      padding: 10px 12px;
+      margin: 0 0 16px 0;
+      font-size: 10.5pt;
+    }
+
+    /* Print styles */
+    @media print {
+      .instructions { display: none !important; }
+      .fill, .block-fill { background: transparent !important; }
+      a { color: black; text-decoration: none; }
+      main { margin: 0; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="instructions">
+      <h3>Fillable Fields</h3>
+      <p>Please fill in the following details:</p>
+      <label for="landlordName">Landlord's Full Legal Name:</label>
+      <input type="text" id="landlordName" class="fill" contenteditable="true" data-ph="[Landlord full legal name]"><br><br>
+
+      <label for="lrNo">LR No. (Land Reference Number):</label>
+      <input type="text" id="lrNo" class="fill" contenteditable="true" data-ph="[LR No.]"><br><br>
+
+      <label for="firmAdvocate">Firm / Advocate:</label>
+      <input type="text" id="firmAdvocate" class="fill" contenteditable="true" data-ph="[Firm / Advocate]"><br><br>
+
+      <label for="day">Day:</label>
+      <input type="text" id="day" class="fill" contenteditable="true" data-ph="[day]"><br><br>
+
+      <label for="month">Month:</label>
+      <input type="text" id="month" class="fill" contenteditable="true" data-ph="[month]"><br><br>
+
+      <label for="year">Year:</label>
+      <input type="text" id="year" class="fill" contenteditable="true" data-ph="[YY]"><br><br>
+      <button id="downloadWord">Download as Word</button>
+      <button id="downloadPdf">Download as PDF</button>
+    </section>
+    <header>
+      <h1>Agreement to Lease</h1>
+      <p class="center">
+        from
+        <span class="fill" contenteditable="true" data-ph="[Landlord full legal name]"></span>
+        (as the “Landlord”)<br/>
+        to<br/>
+        <strong>Safaricom PLC</strong> (as the “Tenant”)<br/>
+        over<br/>
+        Part of Property Land Reference Number:
+        <span class="fill" contenteditable="true" data-ph="[LR No.]"></span>
+      </p>
+      <p class="muted">Drawn by:- <span class="fill" contenteditable="true" data-ph="[Firm / Advocate]"></span></p>
+      <p>THIS AGREEMENT is made this
+        <span class="fill" contenteditable="true" data-ph="[day]"></span>
+        day of
+        <span class="fill" contenteditable="true" data-ph="[month]"></span>
+        20<span class="fill" contenteditable="true" data-ph="[YY]"></span>
+      </p>
+      <p><strong>BETWEEN</strong></p>
+      <p>(1) Person named in the First Schedule as the Landlord whose postal address is stated (“the Landlord”);</p>
+      <p>(2) <strong>SAFARICOM PLC</strong> of P. O. Box Number 66827-00800 Nairobi Kenya (“The Tenant”).</p>
+      <p><strong>NOW IT IS AGREED as follows:-</strong></p>
+    </header>
+
+    <section>
+      <h2>Definitions and Interpretation</h2>
+      <p>In this Agreement the following expressions shall mean:</p>
+      <p><strong>“Apparatus”</strong> means the towers antennae dish antennae the equipment cabin generator house support structures fixing apparatus with such power supply equipment cables wires and conduits as are reasonably required for the Permitted Use including but not limited to an electric line and/or fibre cable either overhead or underground or as may otherwise be required of the types illustrated on the drawings attached to this Agreement which shall at all times remain the exclusive property of the Tenant.</p>
+      <p><strong>“Commencement Date”</strong> means the date specified in the First Schedule.</p>
+      <p><strong>“Landlord”</strong> includes the Landlord’s successors in title to the Premises, and any other person who is at any time entitled to the reversion immediately expectant on the term anticipated hereunder to be granted by the Lease.</p>
+      <p><strong>“Lease”</strong> means a lease of the Premises in the form annexed in the Second Schedule subject to such amendments and additions as may be required by the form of the documents of title and such modifications to the description of the Premises as may be mutually agreed in writing between the Landlord and the Tenant.</p>
+      <p><strong>“Permitted Use”</strong> means uses specific to the telecommunications industry as a telecommunications base transceiver station including the installation upgrade, optimization of existing equipment including new antennae or other equipment swaps, removal, replacement, repair and maintenance of the Apparatus.</p>
+      <p><strong>“Personal Data”</strong> means the Landlord’s personal information including, but not limited to, copies of national ID, Passport, KRA PIN, photographs, bank account details, telephone number, physical, postal and email address as collected by the Tenant;</p>
+      <p><strong>“Plan”</strong> means the plan of the Premises attached as the Third Schedule.</p>
+      <p><strong>“Premises”</strong> means the premises to be leased by The Tenant and more particularly described in the First Schedule and on the Plan.</p>
+      <p><strong>“Rent”</strong> means the annual rent payable by The Tenant for the duration of the Term as specified in the First Schedule.</p>
+      <p><strong>“Term”</strong> means the duration of the Lease specified in the First Schedule.</p>
+      <p><strong>“Works”</strong> means the works to be carried out by the Tenant its agents or contractors (including any structural works reasonably required for the laying of any necessary communications, fibre and electricity supply cables the installation of air conditioning/handling units and all works necessary to comply with Health and Safety requirements) in connection with the installation upgrade, optimization of existing equipment including new antennae or other equipment swaps, removal, replacement, repair and maintenance of the Apparatus and any subsequent inspection alteration or maintenance works.</p>
+    </section>
+
+    <section>
+      <h2>The Lease</h2>
+      <ol class="clauses">
+        <li>
+          <span class="num"></span><span>The Landlord shall as soon as is practicable grant and the Tenant shall accept the Lease and the parties shall execute a counterpart of it.</span>
+        </li>
+        <li>
+          <span class="num"></span><span>The Lease shall be prepared by the Tenant’s Advocates in the form enclosed in the Second Schedule and the covenants conditions provisions and agreements contained or implied in the Second Schedule shall be deemed to form part of this Agreement.</span>
+        </li>
+        <li>
+          <span class="num"></span><span>Pending issuance of the Lease the provisions of this Agreement shall apply save that where there shall be a conflict between the provisions of this Agreement and the Lease the provisions in this Agreement shall prevail.</span>
+        </li>
+        <li>
+          <span class="num"></span><span>Pending the completion execution and registration of the Lease the Landlord and the Tenant shall observe and comply with the provisions contained or implied in the Lease as if the same were incorporated.</span>
+        </li>
+        <li>
+          <span class="num"></span><span>The Tenant shall only use the Premises for the Permitted Use.</span>
+        </li>
+        <li>
+          <span class="num"></span><span>Where applicable, the Landlord shall grant and the Tenant shall accept the Lease subject to such statutory provision to allow the Tenant to take title or an interest in agricultural land including but not limited to Presidential Exemption being obtained under the Land Control Act.</span>
+        </li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Vacant Possession and Rent</h2>
+      <p>Vacant Possession of the Premises shall be given to the Tenant on, and the Rent shall be payable with effect from, the Commencement Date.</p>
+    </section>
+
+    <section>
+      <h2>Use</h2>
+      <p>Upon execution of this Agreement the Tenant shall have the right to commence the Works.</p>
+      <p>The Landlord shall grant the Tenant an easement at no additional cost to erect lay alter maintain repair or inspect an electric line and/or fibre cable either overhead or underground or as may otherwise be required across the Land and or the Premises as shall be required for the Permitted Use.</p>
+      <p>The Landlord shall permit the Tenant at the Tenant’s expense to connect into the Landlord’s electricity supply or to connect to and use a separate metered electricity supply from the power supplier and/or install an electricity generator in the Premises and to pay all charges in respect of the same or a fair portion of the electricity consumed (as the case may be) AND the Landlord will provide the Tenant with every assistance at no additional cost to execute or procure the execution of such consents documents or approvals required for power connection to the Premises including but not limited to Kenya Power’s or other supplier’s way-leave documents.</p>
+      <p>The Tenant reserves the right to allow any other telecommunications operator to install and operate telecommunications equipment within the Premises SUBJECT TO Fourteen (14) days prior written notification by the Tenant to the Landlord.</p>
+    </section>
+
+    <section>
+      <h2>Warranty</h2>
+      <p>The Landlord warrants that he/she/it has proprietary interest and/or legal title to the Premises and has obtained the consent of any mortgagee or other third party necessary to allow him/her/it to enter into this Agreement. The Landlord acknowledges that the Tenant has invested a substantial sum of money in erecting the Base Transceiver Station. The Landlord undertakes to immediately notify the Tenant of his intention to lease licence transfer or sublet the Land to a third party and further that the Landlord shall use his best endeavours to facilitate and procure that such lease licence transfer sublease or any other similar or related arrangement, prior to the expiry of the Lease, shall be made with an express condition that the same is subject to the Lease.</p>
+    </section>
+
+    <section>
+      <h2>Access</h2>
+      <p>Upon execution of this Agreement the Tenant (and all persons authorized by the Tenant) shall be free to commence the Works and shall have right at all times (Twenty Four (24) hours per day Three Hundred and Sixty-Five (365) days per year) of full and free access to and from the premises and the Apparatus.</p>
+    </section>
+
+    <section>
+      <h2>Termination</h2>
+      <p>The Tenant may terminate this Agreement with immediate effect upon written notice of the same to the Landlord in the event that the Premises or means of access to the Premises in the sole opinion of the Tenant is or becomes unsuitable for the operation of the Apparatus for the Permitted Use including (but not limited to) (i) the complete or partial destruction of the Premises (ii) the erection of new buildings on any land near to the Premises (iii) other environmental changes to the area in which the Premises is located and (iv) any technical reason relating to the Apparatus.</p>
+      <p>The Tenant may terminate this Agreement with immediate effect if any planning health or other consents or approvals in relation to the Lease and/or Permitted Use have not been granted within Ninety (90) days of the date of this Agreement.</p>
+    </section>
+
+    <section>
+      <h2>Breach</h2>
+      <p>The Landlord shall be entitled to terminate this Agreement if it has served on The Tenant a prior written notice specifying any substantial breach by The Tenant of its obligations under this Agreement, and The Tenant has not remedied the same within Thirty (30) days of such written notice.</p>
+    </section>
+
+    <section>
+      <h2>Notices</h2>
+      <p>Any notice or other communication bill or statement provided for by this Agreement shall be in writing and any notice communication bill or statement to the Tenant shall be sufficiently served if addressed to the Tenant and delivered by hand to the Premises or sent by registered post to the following address:</p>
+      <p>
+        Safaricom PLC<br/>
+        Safaricom House<br/>
+        Waiyaki Way<br/>
+        P.O. Box 66827-00800<br/>
+        Nairobi<br/>
+        Telephone: 0722003272<br/>
+        Attention: The Infrastructure and Property Manager
+      </p>
+      <p>and any notice or communication to the Landlord shall be sufficiently served if delivered by registered post to its postal address or to any other address which the Landlord may in writing inform the Tenant. Any notice communication bill or statement personally delivered shall be deemed to have been served upon such delivery or if served by registered post shall be deemed to have been served within Seven (7) days following the day on which it is posted or if sent by facsimile on completion of successful and confirmed transmission.</p>
+    </section>
+
+    <section>
+      <h2>Arbitration</h2>
+      <p>Save as may be otherwise provided, any dispute not mutually settled between the parties shall be referred to Arbitration by single Arbitrator to be appointed by Agreement between the parties or in default of such Agreement within Fourteen (14) days of the notification of such dispute by either party to the other, upon application by either party to the Chairman for the time being of the Kenya Branch of Chartered Institute of Arbitrators of the United Kingdom who shall appoint an Arbitrator.</p>
+      <p>Every award made under this clause shall be subject to and in accordance with the provisions of Arbitration Act 1995 (Act No. 4 of 1995) or other Act or Acts for the time being in force in Kenya in relation to Arbitration.</p>
+      <p>To the extent permissible by law the determination of the Arbitrator shall be final and binding upon the parties and any Arbitration proceedings shall take place in Nairobi.</p>
+    </section>
+
+    <section>
+      <h2>VAT and other Taxes Assessments and Charges</h2>
+      <h3>11.1 Value Added Tax (VAT)</h3>
+      <p>Rent shall be exclusive of VAT and the Landlord shall for the purposes of this Agreement be responsible for remitting to the Kenya Revenue Authority or any other statutory or governmental organ and/or authority all Value Added Tax (together called “VAT”) which shall be payable by the Tenant to the Landlord upon the Landlord producing an ETR-compliant invoice where applicable.</p>
+
+      <h3>11.2 Withholding Tax on Rental Income (WHT)</h3>
+      <p>Rent shall be inclusive of withholding tax on rental income. For the avoidance of doubt, the Tenant shall withhold and remit to the relevant body 7.5% withholding tax on rental income or such other applicable rate except where the Landlord is exempt from payment of such withholding tax, with proof of such exemption having been supplied to the Tenant prior to execution of the Agreement. A withholding tax certificate shall be available for access by the Landlord on the Landlord’s iTax Portal.</p>
+
+      <h3>11.3 Indemnity</h3>
+      <p>The Tenant shall indemnify the Landlord against any and all claims whatsoever arising from non-remittance of the ten percent withholding tax aforesaid.</p>
+    </section>
+
+    <section>
+      <h2>Data Protection</h2>
+      <p>The parties will during the Term comply with the Data Protection Act and regulations thereunder.</p>
+      <p>Personal Data will be collected by the Tenant for the following purposes and any other purpose relevant to this Agreement:</p>
+      <ul>
+        <li>Preparation, execution, stamping and registration of this Agreement;</li>
+        <li>Maintenance of a contact list for correspondence with the Landlord;</li>
+        <li>For payment of rent, accounting and record keeping; and</li>
+        <li>Compliance with the law.</li>
+      </ul>
+      <p>By execution of this Agreement, the Landlord gives consent to the Tenant to lawfully share the Personal Data with its agents, service providers and connected persons to achieve the objectives in clause 12.2.</p>
+      <p>The Tenant has established technical and operational measures to ensure integrity and confidentiality of the Landlord’s data by way of controls on information classification, access control, cryptography, confidentiality agreements with agents and external service providers and physical and environmental monitoring and compliance.</p>
+      <p>The Landlord will have the following rights for the duration the Personal Data is collected and maintained by the Tenant:</p>
+      <ul>
+        <li>To be informed of the use of the Personal Data;</li>
+        <li>To access the Personal Data;</li>
+        <li>To object to the processing of all or part of the Personal Data where such processing is done in violation of the terms of this Agreement;</li>
+        <li>To correct false or misleading Personal Data; and</li>
+        <li>To the deletion of false or misleading Personal Data.</li>
+      </ul>
+      <p>By execution of this Agreement, the Landlord confirms that it/he/she has accessed the Tenant’s Data Privacy Statement on
+        <a href="https://www.safaricom.co.ke/dataprivacystatement/">https://www.safaricom.co.ke/dataprivacystatement/</a>, read and understood the contents.</p>
+    </section>
+
+    <section>
+      <h2>General</h2>
+      <p>The Landlord agrees that where the Landlord’s consent or approval is required under the terms of this Agreement it shall in all cases be subject to a requirement on the Landlord not to unreasonably withhold or delay or condition such approval or consent.</p>
+      <p>All references made to the Tenant shall include its successors and assigns.</p>
+      <p>All references made to the Landlord shall include his /her/its personal representatives, successors and assigns as the case may be.</p>
+      <p>The rights granted to The Tenant by this Agreement shall extend to the exercise of those rights by its agents contractors personnel link providers and others authorised by the Tenant from time to time.</p>
+      <p>This Agreement shall not be capable of transfer or assignment except in accordance with the provisions contained in the Lease.</p>
+      <p>The time limits set down in this Agreement may from time to time be extended upon the reasonable request of either party and upon the mutual consent in writing of both parties provided that such consent shall not be unreasonably withheld.</p>
+    </section>
+
+    <hr/>
+
+    <section>
+      <h2>The First Schedule</h2>
+      <p><strong>The Commencement Date:</strong>
+        <span class="fill" contenteditable="true" data-ph="[Commencement Date]"></span>
+      </p>
+      <p><strong>The Land:</strong> all the Landlord’s land known as
+        <span class="fill" contenteditable="true" data-ph="[Land description / Title]"></span>
+      </p>
+      <p><strong>The Landlord:</strong>
+        <span class="fill" contenteditable="true" data-ph="[Landlord full legal name]"></span>
+      </p>
+        whose postal address is P.O. BOX
+        <span class="fill" contenteditable="true" data-ph="[Postal address]"></span>
+      </p>
+      <p><strong>The Plan:</strong> the plan of the Premises annexed as the Third Schedule.</p>
+      <p><strong>The Premises:</strong> all that area being leased by the Tenant (being part of the Land) and marked in red on the Plan.</p>
+
+      <h3>The Rent</h3>
+      <p>Payable annually in advance from the Commencement Date and on the anniversary of the Commencement Date for each year of the Term as set out in the Lease. The Rent set out below is subject to clause 11 above.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Amount in words</th>
+            <th>Amount in figures</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>First Year</td>
+            <td><span class="block-fill" contenteditable="true" data-ph="[Kenya Shillings in words]"></span></td>
+            <td>K.Shs. <span class="fill" contenteditable="true" data-ph="[Amount/=]"></span></td>
+          </tr>
+          <tr>
+            <td>Second Year</td>
+            <td><span class="block-fill" contenteditable="true" data-ph="[Kenya Shillings in words]"></span></td>
+            <td>K.Shs. <span class="fill" contenteditable="true" data-ph="[Amount/=]"></span></td>
+          </tr>
+          <tr>
+            <td>Third Year</td>
+            <td><span class="block-fill" contenteditable="true" data-ph="[Kenya Shillings in words]"></span></td>
+            <td>K.Shs. <span class="fill" contenteditable="true" data-ph="[Amount/=]"></span></td>
+          </tr>
+          <tr>
+            <td>Fourth Year</td>
+            <td><span class="block-fill" contenteditable="true" data-ph="[Kenya Shillings in words]"></span></td>
+            <td>K.Shs. <span class="fill" contenteditable="true" data-ph="[Amount/=]"></span></td>
+          </tr>
+          <tr>
+            <td>Fifth Year</td>
+            <td><span class="block-fill" contenteditable="true" data-ph="[Kenya Shillings in words]"></span></td>
+            <td>K.Shs. <span class="fill" contenteditable="true" data-ph="[Amount/=]"></span></td>
+          </tr>
+          <tr>
+            <td>Sixth Year</td>
+            <td><span class="block-fill" contenteditable="true" data-ph="[Kenya Shillings in words]"></span></td>
+            <td>K.Shs. <span class="fill" contenteditable="true" data-ph="[Amount/=]"></span></td>
+          </tr>
+          <tr>
+            <td>Seventh Year</td>
+            <td><span class="block-fill" contenteditable="true" data-ph="[Kenya Shillings in words]"></span></td>
+            <td>K.Shs. <span class="fill" contenteditable="true" data-ph="[Amount/=]"></span></td>
+          </tr>
+          <tr>
+            <td>Eighth Year</td>
+            <td><span class="block-fill" contenteditable="true" data-ph="[Kenya Shillings in words]"></span></td>
+            <td>K.Shs. <span class="fill" contenteditable="true" data-ph="[Amount/=]"></span></td>
+          </tr>
+          <tr>
+            <td>Ninth Year</td>
+            <td><span class="block-fill" contenteditable="true" data-ph="[Kenya Shillings in words]"></span></td>
+            <td>K.Shs. <span class="fill" contenteditable="true" data-ph="[Amount/=]"></span></td>
+          </tr>
+          <tr>
+            <td>Tenth Year</td>
+            <td><span class="block-fill" contenteditable="true" data-ph="[Kenya Shillings in words]"></span></td>
+            <td>K.Shs. <span class="fill" contenteditable="true" data-ph="[Amount/=]"></span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p><strong>Renewal Rent:</strong> The Rent payable for each year of the renewed term shall be increased by Five per cent (5%) per annum.</p>
+
+      <p><strong>The Term:</strong> shall be for a period of
+        <span class="fill" contenteditable="true" data-ph="[Years in words]"></span>
+        (<span class="fill" contenteditable="true" data-ph="[Y]"></span>) Years from the Commencement Date unless earlier terminated and the Tenant shall have the option to renew for a further
+        <span class="fill" contenteditable="true" data-ph="[Further term in words]"></span>
+        (<span class="fill" contenteditable="true" data-ph="[Y]"></span>) consecutive term of
+        <span class="fill" contenteditable="true" data-ph="[Years in words]"></span>
+        (<span class="fill" contenteditable="true" data-ph="[Y]"></span>) years as more particularly set out in the Lease.
+      </p>
+    </section>
+
+    <section>
+      <h2>Second Schedule</h2>
+      <h3>Form of Lease</h3>
+      <p class="small muted">[Attach or insert the final form of the Lease here if required.]</p>
+      <div class="block-fill" contenteditable="true" data-ph="[Paste or draft the Lease form here]"></div>
+    </section>
+
+    <section>
+      <h2>Third Schedule</h2>
+      <h3>Plan</h3>
+      <p class="small muted">[Attach the plan of the Premises. You may paste images or diagrams here after opening in Word.]</p>
+      <p><strong>Overhead View of Site Layout</strong></p>
+      <div class="block-fill" style="height: 120px;" contenteditable="true" data-ph="[Insert overhead plan here]"></div>
+      <p><strong>Side Elevation View</strong></p>
+      <div class="block-fill" style="height: 120px;" contenteditable="true" data-ph="[Insert side elevation here]"></div>
+    </section>
+
+    <hr/>
+
+    <section>
+      <h2>Execution</h2>
+
+      <table class="sig-grid">
+        <tr>
+          <td class="sig-cell">
+            <p class="caps"><strong>Signed by Landlord</strong></p>
+            <span class="line"></span>
+            <div class="label">Signature of Landlord</div>
+
+            <span class="line"></span>
+            <div class="label">Name</div>
+
+            <p>in the presence of:</p>
+            <span class="line"></span>
+            <div class="label">Signature of Advocate (Witness)</div>
+
+            <p>I CERTIFY that <span class="fill" contenteditable="true" data-ph="[Name of Landlord]"></span> appeared before me on the
+              <span class="fill" contenteditable="true" data-ph="[day]"></span> day of
+              <span class="fill" contenteditable="true" data-ph="[month]"></span> 20<span class="fill" contenteditable="true" data-ph="[YY]"></span>
+              and (being known to me) acknowledged the above signature or mark to be his/hers and that he/she had understood the contents of this instrument, freely and voluntarily executed it.</p>
+
+            <p><strong>Witness details</strong></p>
+            <div>Name: <span class="fill" contenteditable="true" data-ph="[Advocate Name]"></span></div>
+            <div>Address: <span class="fill" contenteditable="true" data-ph="[Address]"></span></div>
+            <div>Occupation: ADVOCATE</div>
+          </td>
+
+          <td class="sig-cell">
+            <p class="caps"><strong>Execution under Common Seal (if corporate Landlord)</strong></p>
+            <p>SEALED with the COMMON SEAL of
+              <span class="fill" contenteditable="true" data-ph="[Company Name Limited]"></span>
+              in the presence of:</p>
+
+            <div>Director: <span class="fill" contenteditable="true" data-ph="[Director Name]"></span></div>
+            <div>Director / Secretary: <span class="fill" contenteditable="true" data-ph="[Director/Secretary Name]"></span></div>
+
+            <p>I CERTIFY that <span class="fill" contenteditable="true" data-ph="[Director Name]"></span> and
+              <span class="fill" contenteditable="true" data-ph="[Director/Secretary Name]"></span>
+              being Directors/ Director and Secretary of the
+              <span class="fill" contenteditable="true" data-ph="[Company Name Limited]"></span>
+              appeared before me on the
+              <span class="fill" contenteditable="true" data-ph="[day]"></span> day of
+              <span class="fill" contenteditable="true" data-ph="[month]"></span> 20<span class="fill" contenteditable="true" data-ph="[YY]"></span>
+              and (being known to me) acknowledged the above signatures or marks to be theirs and that they had understood its contents, freely and voluntarily executed it.</p>
+
+            <p><strong>Witness details</strong></p>
+            <div>Name: <span class="fill" contenteditable="true" data-ph="[Advocate Name]"></span></div>
+            <div>Address: <span class="fill" contenteditable="true" data-ph="[Address]"></span></div>
+            <div>Occupation: ADVOCATE</div>
+          </td>
+        </tr>
+      </table>
+
+      <div style="height:14px;"></div>
+
+      <div class="sig-cell" style="border:1px solid #333; padding:12px;">
+        <p class="caps"><strong>Signed by the duly authorised Attorney of SAFARICOM PLC</strong></p>
+        <p>under and by virtue of a Power of Attorney registered at the Government Lands Registry at
+          <span class="fill" contenteditable="true" data-ph="[Registry Location]"></span>
+          as Number <span class="fill" contenteditable="true" data-ph="[Number]"></span> on
+          <span class="fill" contenteditable="true" data-ph="[Date]"></span>
+          in the presence of:</p>
+
+        <span class="line"></span>
+        <div class="label">Signature of Advocate (Witness)</div>
+
+        <p>I CERTIFY that <span class="fill" contenteditable="true" data-ph="[Attorney Name]"></span> appeared before me and being known to me and having understood the contents of this instrument freely and voluntarily executed it.</p>
+
+        <p><strong>Witness details</strong></p>
+        <div>Name: <span class="fill" contenteditable="true" data-ph="[Advocate Name]"></span></div>
+        <div>Address: <span class="fill" contenteditable="true" data-ph="[Address]"></span></div>
+        <div>Occupation: ADVOCATE</div>
+      </div>
+    </section>
+
+    <section>
+      <p class="small muted">C3 - Safaricom Confidential External</p>
+    </section>
+  </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html-docx-js/0.3.1/html-docx.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    document.getElementById('downloadWord').addEventListener('click', function() {
+      var content = document.querySelector('main').outerHTML;
+      var converted = htmlDocx.asBlob(content);
+
+      saveAs(converted, 'agreement.docx');
+    });
+
+    document.getElementById('downloadPdf').addEventListener('click', function() {
+      var doc = new jsPDF();
+      doc.fromHTML(document.querySelector('main'), 15, 15, {
+        'width': 170,
+        'elementHandlers': {}
+      });
+      doc.save('agreement.pdf');
+    });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js" integrity="sha512-Qlv6VSKh1stF9kE7T8dQ3J5LuHnF4Wt9fIOjwTRzQ
