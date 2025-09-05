@@ -3,24 +3,14 @@ import { Zap, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface FormActionsProps {
-  onSaveDraft?: () => void;
   isSubmitting?: boolean;
   onDownloadROF5?: () => void;
 }
 
-const FormActions = ({ onSaveDraft, isSubmitting = false, onDownloadROF5 }: FormActionsProps) => {
+const FormActions = ({ isSubmitting = false, onDownloadROF5 }: FormActionsProps) => {
   return (
     <div className="flex justify-between items-center">
       <div className="flex space-x-4">
-        <Button 
-          type="button" 
-          variant="outline" 
-          onClick={onSaveDraft}
-          disabled={isSubmitting}
-        >
-          Save as Draft
-        </Button>
-        
         {onDownloadROF5 && (
           <Button 
             type="button" 
